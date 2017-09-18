@@ -1,0 +1,3 @@
+springfox:
+ title: 'FINT Administrasjon Kodeverk Consumer'
+ version: '@version@'

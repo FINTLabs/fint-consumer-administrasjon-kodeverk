@@ -1,0 +1,1 @@
+# FINT Administrasjon Kodeverk Consumer
