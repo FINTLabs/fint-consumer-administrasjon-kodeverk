@@ -1,4 +1,4 @@
-package no.fint.consumer.models.timerperukekode;
+package no.fint.consumer.models.uketimetall;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,8 @@ import no.fint.consumer.utils.RestEndpoints;
 import no.fint.event.model.Event;
 import no.fint.event.model.HeaderConstants;
 import no.fint.event.model.Status;
-
+import no.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.fint.model.administrasjon.kodeverk.Uketimetall;
 import no.fint.model.relation.FintResource;
 import no.fint.relations.FintRelationsMediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import no.fint.model.administrasjon.kodeverk.TimerPerUkeKode;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
-
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestEndpoints.TIMERPERUKEKODE, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-public class TimerPerUkeKodeController {
+@RequestMapping(value = RestEndpoints.UKETIMETALL, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+public class UketimetallController {
 
     @Autowired
-    private TimerPerUkeKodeCacheService cacheService;
+    private UketimetallCacheService cacheService;
 
     @Autowired
     private FintAuditService fintAuditService;
 
     @Autowired
-    private TimerPerUkeKodeAssembler assembler;
+    private UketimetallAssembler assembler;
 
     @GetMapping("/last-updated")
     public Map<String, String> getLastUpdated(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
@@ -45,7 +43,7 @@ public class TimerPerUkeKodeController {
     }
 
     @GetMapping("/cache/size")
-     public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
+    public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
         return ImmutableMap.of("size", cacheService.getAll(orgId).size());
     }
 
@@ -56,47 +54,47 @@ public class TimerPerUkeKodeController {
 
     @GetMapping
     public ResponseEntity getTimerPerUkeKode(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                               @RequestHeader(HeaderConstants.CLIENT) String client,
-                                               @RequestParam(required = false) Long sinceTimeStamp) {
+                                             @RequestHeader(HeaderConstants.CLIENT) String client,
+                                             @RequestParam(required = false) Long sinceTimeStamp) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
         log.info("SinceTimeStamp: {}", sinceTimeStamp);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_TIMERPERUKEKODE, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_UKETIMETALL, client);
         fintAuditService.audit(event);
 
         fintAuditService.audit(event, Status.CACHE);
 
-        List<FintResource<TimerPerUkeKode>> timerperukekode;
+        List<FintResource<Uketimetall>> uketimetall;
         if (sinceTimeStamp == null) {
-            timerperukekode = cacheService.getAll(orgId);
+            uketimetall = cacheService.getAll(orgId);
         } else {
-            timerperukekode = cacheService.getAll(orgId, sinceTimeStamp);
+            uketimetall = cacheService.getAll(orgId, sinceTimeStamp);
         }
 
         fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
-        return assembler.resources(timerperukekode);
+        return assembler.resources(uketimetall);
     }
 
     @GetMapping("/systemid/{id}")
-    public ResponseEntity getTimerPerUkeKode(@PathVariable String id,
-                                             @RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                             @RequestHeader(HeaderConstants.CLIENT) String client) {
+    public ResponseEntity getUketimetall(@PathVariable String id,
+                                         @RequestHeader(HeaderConstants.ORG_ID) String orgId,
+                                         @RequestHeader(HeaderConstants.CLIENT) String client) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_TIMERPERUKEKODE, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_UKETIMETALL, client);
         fintAuditService.audit(event);
 
         fintAuditService.audit(event, Status.CACHE);
 
-        Optional<FintResource<TimerPerUkeKode>> timerperukekode = cacheService.getTimerPerUkeKode(orgId, id);
+        Optional<FintResource<Uketimetall>> uketimetall = cacheService.getUketimetall(orgId, id);
 
         fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
-        if (timerperukekode.isPresent()) {
-            return assembler.resource(timerperukekode.get());
+        if (uketimetall.isPresent()) {
+            return assembler.resource(uketimetall.get());
         } else {
             return ResponseEntity.notFound().build();
         }

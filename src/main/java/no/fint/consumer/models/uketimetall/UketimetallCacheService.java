@@ -1,4 +1,4 @@
-package no.fint.consumer.models.timerperukekode;
+package no.fint.consumer.models.uketimetall;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
 import no.fint.event.model.Event;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
-import no.fint.model.administrasjon.kodeverk.TimerPerUkeKode;
+import no.fint.model.administrasjon.kodeverk.Uketimetall;
 import no.fint.model.relation.FintResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,9 +22,9 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class TimerPerUkeKodeCacheService extends CacheService<FintResource<TimerPerUkeKode>> {
+public class UketimetallCacheService extends CacheService<FintResource<Uketimetall>> {
 
-    public static final String MODEL = TimerPerUkeKode.class.getSimpleName().toLowerCase();
+    public static final String MODEL = Uketimetall.class.getSimpleName().toLowerCase();
 
     @Autowired
     private ConsumerEventUtil consumerEventUtil;
@@ -32,19 +32,19 @@ public class TimerPerUkeKodeCacheService extends CacheService<FintResource<Timer
     @Autowired
     private ConsumerProps props;
 
-    public TimerPerUkeKodeCacheService() {
-        super(MODEL, KodeverkActions.GET_ALL_TIMERPERUKEKODE);
+    public UketimetallCacheService() {
+        super(MODEL, KodeverkActions.GET_ALL_UKETIMETALL);
     }
 
     @PostConstruct
     public void init() {
         Arrays.stream(props.getOrgs()).forEach(orgId -> {
-            FintCache<FintResource<TimerPerUkeKode>> cache = new FintCache<>();
+            FintCache<FintResource<Uketimetall>> cache = new FintCache<>();
             put(orgId, cache);
         });
     }
 
-    @Scheduled(initialDelayString = ConsumerProps.CACHE_INITIALDELAY_TIMERPERUKEKODE, fixedRateString = ConsumerProps.CACHE_FIXEDRATE_TIMERPERUKEKODE)
+    @Scheduled(initialDelayString = ConsumerProps.CACHE_INITIALDELAY_UKETIMETALL, fixedRateString = ConsumerProps.CACHE_FIXEDRATE_UKETIMETALL)
     public void populateCacheAll() {
         Arrays.stream(props.getOrgs()).forEach(this::populateCache);
     }
@@ -55,18 +55,18 @@ public class TimerPerUkeKodeCacheService extends CacheService<FintResource<Timer
     }
 
     private void populateCache(String orgId) {
-        log.info("Populating TimerPerUkeKode cache for {}", orgId);
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_TIMERPERUKEKODE, Constants.CACHE_SERVICE);
+        log.info("Populating Uketimetall cache for {}", orgId);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_UKETIMETALL, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);
     }
 
-    public Optional<FintResource<TimerPerUkeKode>> getTimerPerUkeKode(String orgId, String systemId) {
+    public Optional<FintResource<Uketimetall>> getUketimetall(String orgId, String systemId) {
         return getOne(orgId, (fintResource) -> fintResource.getResource().getSystemId().getIdentifikatorverdi().equals(systemId));
     }
 
     @Override
     public void onAction(Event event) {
-        update(event, new TypeReference<List<FintResource<TimerPerUkeKode>>>() {
+        update(event, new TypeReference<List<FintResource<Uketimetall>>>() {
         });
     }
 }

@@ -11,6 +11,6 @@ public enum RestEndpoints {
     public static final String PERSONALRESSURSKATEGORI = "/personalressurskategori";
     public static final String PROSJEKT = "/prosjekt";
     public static final String STILLINGSKODE = "/stillingskode";
-    public static final String TIMERPERUKEKODE = "/timerperukekode";
+    public static final String UKETIMETALL = "/uketimetall";
     public static final String LONNSART = "/lonnsart";
 }

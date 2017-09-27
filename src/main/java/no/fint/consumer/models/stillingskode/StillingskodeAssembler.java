@@ -14,7 +14,7 @@ public class StillingskodeAssembler extends FintResourceAssembler<Stillingskode>
     }
 
     @Override
-    public FintResourceSupport assemble(Stillingskode stillingskode , FintResource<Stillingskode> fintResource) {
+    public FintResourceSupport assemble(Stillingskode stillingskode, FintResource<Stillingskode> fintResource) {
         return createResourceWithId(stillingskode.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
 }

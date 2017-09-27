@@ -8,7 +8,8 @@ import no.fint.consumer.utils.RestEndpoints;
 import no.fint.event.model.Event;
 import no.fint.event.model.HeaderConstants;
 import no.fint.event.model.Status;
-
+import no.fint.model.administrasjon.kodeverk.Funksjon;
+import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 import no.fint.model.relation.FintResource;
 import no.fint.relations.FintRelationsMediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import no.fint.model.administrasjon.kodeverk.Funksjon;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @CrossOrigin
@@ -45,7 +43,7 @@ public class FunksjonController {
     }
 
     @GetMapping("/cache/size")
-     public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
+    public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
         return ImmutableMap.of("size", cacheService.getAll(orgId).size());
     }
 
@@ -56,8 +54,8 @@ public class FunksjonController {
 
     @GetMapping
     public ResponseEntity getFunksjon(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                               @RequestHeader(HeaderConstants.CLIENT) String client,
-                                               @RequestParam(required = false) Long sinceTimeStamp) {
+                                      @RequestHeader(HeaderConstants.CLIENT) String client,
+                                      @RequestParam(required = false) Long sinceTimeStamp) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
         log.info("SinceTimeStamp: {}", sinceTimeStamp);
@@ -81,8 +79,8 @@ public class FunksjonController {
 
     @GetMapping("/systemid/{id}")
     public ResponseEntity getFunksjon(@PathVariable String id,
-                                             @RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                             @RequestHeader(HeaderConstants.CLIENT) String client) {
+                                      @RequestHeader(HeaderConstants.ORG_ID) String orgId,
+                                      @RequestHeader(HeaderConstants.CLIENT) String client) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
 
