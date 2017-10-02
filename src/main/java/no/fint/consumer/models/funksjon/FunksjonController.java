@@ -37,24 +37,24 @@ public class FunksjonController {
     private FunksjonAssembler assembler;
 
     @GetMapping("/last-updated")
-    public Map<String, String> getLastUpdated(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
+    public Map<String, String> getLastUpdated(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId) {
         String lastUpdated = Long.toString(cacheService.getLastUpdated(orgId));
         return ImmutableMap.of("lastUpdated", lastUpdated);
     }
 
     @GetMapping("/cache/size")
-    public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
+    public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId) {
         return ImmutableMap.of("size", cacheService.getAll(orgId).size());
     }
 
     @PostMapping("/cache/rebuild")
-    public void rebuildCache(@RequestHeader(HeaderConstants.ORG_ID) String orgId) {
+    public void rebuildCache(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId) {
         cacheService.rebuildCache(orgId);
     }
 
     @GetMapping
-    public ResponseEntity getFunksjon(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                      @RequestHeader(HeaderConstants.CLIENT) String client,
+    public ResponseEntity getFunksjon(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId,
+                                      @RequestHeader(value = HeaderConstants.CLIENT, defaultValue = Constants.DEFAULT_HEADER_CLIENT) String client,
                                       @RequestParam(required = false) Long sinceTimeStamp) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
@@ -79,8 +79,8 @@ public class FunksjonController {
 
     @GetMapping("/systemid/{id}")
     public ResponseEntity getFunksjon(@PathVariable String id,
-                                      @RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                      @RequestHeader(HeaderConstants.CLIENT) String client) {
+                                      @RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId,
+                                      @RequestHeader(value = HeaderConstants.CLIENT, defaultValue = Constants.DEFAULT_HEADER_CLIENT) String client) {
         log.info("OrgId: {}", orgId);
         log.info("Client: {}", client);
 

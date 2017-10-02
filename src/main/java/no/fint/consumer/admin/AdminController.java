@@ -27,8 +27,8 @@ public class AdminController {
     private ConsumerEventUtil consumerEventUtil;
 
     @GetMapping("/health")
-    public ResponseEntity healthCheck(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
-                                      @RequestHeader(HeaderConstants.CLIENT) String client) {
+    public ResponseEntity healthCheck(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId,
+                                      @RequestHeader(value = HeaderConstants.CLIENT, defaultValue = Constants.DEFAULT_HEADER_CLIENT) String client) {
         Event<Health> event = new Event<>(orgId, Constants.COMPONENT, DefaultActions.HEALTH, client);
         event.addData(new Health(Constants.COMPONENT_CONSUMER, HealthStatus.SENT_FROM_CONSUMER_TO_PROVIDER));
         Optional<Event<Health>> health = consumerEventUtil.healthCheck(event);
