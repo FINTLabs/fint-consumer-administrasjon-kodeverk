@@ -66,6 +66,8 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
 
     @Override
     public void onAction(Event event) {
+        log.info("Received event: {}", event);
+        log.info("Data size: {}, "event.getData().size());
         update(event, new TypeReference<List<FintResource<Art>>>() {
         });
     }
