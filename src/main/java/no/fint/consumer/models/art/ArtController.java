@@ -44,7 +44,6 @@ public class ArtController {
 
     @GetMapping("/cache/size")
     public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(value = HeaderConstants.ORG_ID, defaultValue = Constants.DEFAULT_HEADER_ORGID) String orgId) {
-        log.info("Cache: {}", cacheService.getAll(orgId));
         return ImmutableMap.of("size", cacheService.getAll(orgId).size());
     }
 
