@@ -52,7 +52,7 @@ repositories {
 dependencies {
     compile('no.fint:fint-event-model:2.0.0')
 
-    compile('no.fint:fint-administrasjon-model-java:2.0.2')
+    compile('no.fint:fint-administrasjon-model-java:2.0.10')
 
     compile('no.fint:fint-relations:1.1.8')
     compile('no.fint:fint-events:1.0.0')
