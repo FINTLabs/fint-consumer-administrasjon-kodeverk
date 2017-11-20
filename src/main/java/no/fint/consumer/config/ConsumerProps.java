@@ -33,6 +33,9 @@ public class ConsumerProps {
     public static final String CACHE_INITIALDELAY_UKETIMETALL = "${fint.consumer.cache.initialDelay.uketimetall:130000}";
     public static final String CACHE_FIXEDRATE_UKETIMETALL = "${fint.consumer.cache.fixedRate.uketimetall:900000}";
 
+    public static final String CACHE_INITIALDELAY_LONNSART = "${fint.consumer.cache.initialDelay.lonnsart:140000}";
+    public static final String CACHE_FIXEDRATE_LONNSART = "${fint.consumer.cache.fixedRate.lonnsart:900000}";
+
 
     @Value("${fint.events.orgIds:fint.no}")
     private String[] orgs;

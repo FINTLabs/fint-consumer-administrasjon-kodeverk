@@ -3,7 +3,6 @@ package no.fint.consumer.models.funksjon;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.cache.CacheService;
-import no.fint.cache.FintCache;
 import no.fint.consumer.config.Constants;
 import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
@@ -38,10 +37,7 @@ public class FunksjonCacheService extends CacheService<FintResource<Funksjon>> {
 
     @PostConstruct
     public void init() {
-        Arrays.stream(props.getOrgs()).forEach(orgId -> {
-            FintCache<FintResource<Funksjon>> cache = new FintCache<>();
-            put(orgId, cache);
-        });
+        Arrays.stream(props.getOrgs()).forEach(this::createCache);
     }
 
     @Scheduled(initialDelayString = ConsumerProps.CACHE_INITIALDELAY_FUNKSJON, fixedRateString = ConsumerProps.CACHE_FIXEDRATE_FUNKSJON)
