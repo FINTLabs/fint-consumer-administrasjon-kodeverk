@@ -1,6 +1,5 @@
-package no.fint.consumer.service
+package no.fint.consumer.event
 
-import no.fint.consumer.event.EventListener
 import no.fint.event.model.Event
 import spock.lang.Specification
 
@@ -13,7 +12,7 @@ class EventListenerSpec extends Specification {
 
     def "No exception is thrown when receiving event"() {
         when:
-        eventListener.recieve(new Event(corrId: '123'))
+        eventListener.accept(new Event(corrId: '123'))
 
         then:
         noExceptionThrown()
