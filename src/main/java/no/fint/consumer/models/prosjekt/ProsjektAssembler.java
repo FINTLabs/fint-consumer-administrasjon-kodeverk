@@ -13,9 +13,13 @@ public class ProsjektAssembler extends FintResourceAssembler<Prosjekt> {
         super(ProsjektController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Prosjekt prosjekt, FintResource<Prosjekt> fintResource) {
+    public FintResourceSupport assemble(Prosjekt prosjekt , FintResource<Prosjekt> fintResource) {
         return createResourceWithId(prosjekt.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

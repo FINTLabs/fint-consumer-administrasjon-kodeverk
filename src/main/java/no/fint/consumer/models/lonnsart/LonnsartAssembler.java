@@ -13,9 +13,13 @@ public class LonnsartAssembler extends FintResourceAssembler<Lonnsart> {
         super(LonnsartController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Lonnsart lonnsart, FintResource<Lonnsart> fintResource) {
+    public FintResourceSupport assemble(Lonnsart lonnsart , FintResource<Lonnsart> fintResource) {
         return createResourceWithId(lonnsart.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

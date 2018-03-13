@@ -7,9 +7,8 @@ import no.fint.consumer.config.Constants;
 import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
 import no.fint.event.model.Event;
-import no.fint.model.administrasjon.kodeverk.Art;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 import no.fint.model.relation.FintResource;
+import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,9 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import no.fint.model.administrasjon.kodeverk.Art;
+import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Service
@@ -46,21 +48,29 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
     }
 
     public void rebuildCache(String orgId) {
-        flush(orgId);
-        populateCache(orgId);
-    }
+		flush(orgId);
+		populateCache(orgId);
+	}
 
     private void populateCache(String orgId) {
-        log.info("Populating Art cache for {}", orgId);
+		log.info("Populating Art cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_ART, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);
     }
 
-    public Optional<FintResource<Art>> getArt(String orgId, String systemId) {
-        return getOne(orgId, (fintResource) -> fintResource.getResource().getSystemId().getIdentifikatorverdi().equals(systemId));
+
+    public Optional<FintResource<Art>> getArtBySystemId(String orgId, String systemId) {
+        return getOne(orgId, (fintResource) -> Optional
+                .ofNullable(fintResource)
+                .map(FintResource::getResource)
+                .map(Art::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
+                .map(id -> id.equals(systemId))
+                .orElse(false));
     }
 
-    @Override
+
+	@Override
     public void onAction(Event event) {
         update(event, new TypeReference<List<FintResource<Art>>>() {
         });

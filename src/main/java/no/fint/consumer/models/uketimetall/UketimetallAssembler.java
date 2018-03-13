@@ -13,9 +13,13 @@ public class UketimetallAssembler extends FintResourceAssembler<Uketimetall> {
         super(UketimetallController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Uketimetall uketimetall, FintResource<Uketimetall> fintResource) {
+    public FintResourceSupport assemble(Uketimetall uketimetall , FintResource<Uketimetall> fintResource) {
         return createResourceWithId(uketimetall.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

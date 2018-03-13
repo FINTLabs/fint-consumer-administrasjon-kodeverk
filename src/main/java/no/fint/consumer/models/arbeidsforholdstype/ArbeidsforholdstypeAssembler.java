@@ -13,9 +13,13 @@ public class ArbeidsforholdstypeAssembler extends FintResourceAssembler<Arbeidsf
         super(ArbeidsforholdstypeController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Arbeidsforholdstype arbeidsforholdstype, FintResource<Arbeidsforholdstype> fintResource) {
+    public FintResourceSupport assemble(Arbeidsforholdstype arbeidsforholdstype , FintResource<Arbeidsforholdstype> fintResource) {
         return createResourceWithId(arbeidsforholdstype.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

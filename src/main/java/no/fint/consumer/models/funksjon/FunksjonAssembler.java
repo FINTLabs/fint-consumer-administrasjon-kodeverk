@@ -13,9 +13,13 @@ public class FunksjonAssembler extends FintResourceAssembler<Funksjon> {
         super(FunksjonController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Funksjon funksjon, FintResource<Funksjon> fintResource) {
+    public FintResourceSupport assemble(Funksjon funksjon , FintResource<Funksjon> fintResource) {
         return createResourceWithId(funksjon.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

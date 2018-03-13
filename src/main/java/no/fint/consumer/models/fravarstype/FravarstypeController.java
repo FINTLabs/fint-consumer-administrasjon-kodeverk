@@ -1,4 +1,4 @@
-package no.fint.consumer.models.lonnsart;
+package no.fint.consumer.models.fravarstype;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +21,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import no.fint.model.administrasjon.kodeverk.Lonnsart;
+import no.fint.model.administrasjon.kodeverk.Fravarstype;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestEndpoints.LONNSART, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-public class LonnsartController {
+@RequestMapping(value = RestEndpoints.FRAVARSTYPE, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+public class FravarstypeController {
 
     @Autowired
-    private LonnsartCacheService cacheService;
+    private FravarstypeCacheService cacheService;
 
     @Autowired
     private FintAuditService fintAuditService;
 
     @Autowired
-    private LonnsartAssembler assembler;
+    private FravarstypeAssembler assembler;
 
     @Autowired
     private ConsumerProps props;
@@ -68,7 +68,7 @@ public class LonnsartController {
     }
 
     @GetMapping
-    public ResponseEntity getLonnsart(
+    public ResponseEntity getFravarstype(
             @RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId,
             @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client,
             @RequestParam(required = false) Long sinceTimeStamp) {
@@ -80,26 +80,26 @@ public class LonnsartController {
         }
         log.info("OrgId: {}, Client: {}", orgId, client);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_LONNSART, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_FRAVARSTYPE, client);
         fintAuditService.audit(event);
 
         fintAuditService.audit(event, Status.CACHE);
 
-        List<FintResource<Lonnsart>> lonnsart;
+        List<FintResource<Fravarstype>> fravarstype;
         if (sinceTimeStamp == null) {
-            lonnsart = cacheService.getAll(orgId);
+            fravarstype = cacheService.getAll(orgId);
         } else {
-            lonnsart = cacheService.getAll(orgId, sinceTimeStamp);
+            fravarstype = cacheService.getAll(orgId, sinceTimeStamp);
         }
 
         fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
-        return assembler.resources(lonnsart);
+        return assembler.resources(fravarstype);
     }
 
 
     @GetMapping("/systemid/{id}")
-    public ResponseEntity getLonnsartBySystemId(@PathVariable String id,
+    public ResponseEntity getFravarstypeBySystemId(@PathVariable String id,
             @RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId,
             @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client) {
         if (props.isOverrideOrgId() || orgId == null) {
@@ -110,17 +110,17 @@ public class LonnsartController {
         }
         log.info("SystemId: {}, OrgId: {}, Client: {}", id, orgId, client);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_LONNSART, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_FRAVARSTYPE, client);
         fintAuditService.audit(event);
 
         fintAuditService.audit(event, Status.CACHE);
 
-        Optional<FintResource<Lonnsart>> lonnsart = cacheService.getLonnsartBySystemId(orgId, id);
+        Optional<FintResource<Fravarstype>> fravarstype = cacheService.getFravarstypeBySystemId(orgId, id);
 
         fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
-        if (lonnsart.isPresent()) {
-            return assembler.resource(lonnsart.get());
+        if (fravarstype.isPresent()) {
+            return assembler.resource(fravarstype.get());
         } else {
             return ResponseEntity.notFound().build();
         }

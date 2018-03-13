@@ -13,9 +13,13 @@ public class PersonalressurskategoriAssembler extends FintResourceAssembler<Pers
         super(PersonalressurskategoriController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Personalressurskategori personalressurskategori, FintResource<Personalressurskategori> fintResource) {
+    public FintResourceSupport assemble(Personalressurskategori personalressurskategori , FintResource<Personalressurskategori> fintResource) {
         return createResourceWithId(personalressurskategori.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

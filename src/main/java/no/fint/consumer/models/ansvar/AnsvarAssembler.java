@@ -13,9 +13,13 @@ public class AnsvarAssembler extends FintResourceAssembler<Ansvar> {
         super(AnsvarController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Ansvar ansvar, FintResource<Ansvar> fintResource) {
+    public FintResourceSupport assemble(Ansvar ansvar , FintResource<Ansvar> fintResource) {
         return createResourceWithId(ansvar.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 

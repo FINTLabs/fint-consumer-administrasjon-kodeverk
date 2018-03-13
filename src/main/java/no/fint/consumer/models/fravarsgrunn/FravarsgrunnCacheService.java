@@ -1,4 +1,4 @@
-package no.fint.consumer.models.uketimetall;
+package no.fint.consumer.models.fravarsgrunn;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import no.fint.model.administrasjon.kodeverk.Uketimetall;
+import no.fint.model.administrasjon.kodeverk.Fravarsgrunn;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Service
-public class UketimetallCacheService extends CacheService<FintResource<Uketimetall>> {
+public class FravarsgrunnCacheService extends CacheService<FintResource<Fravarsgrunn>> {
 
-    public static final String MODEL = Uketimetall.class.getSimpleName().toLowerCase();
+    public static final String MODEL = Fravarsgrunn.class.getSimpleName().toLowerCase();
 
     @Autowired
     private ConsumerEventUtil consumerEventUtil;
@@ -33,8 +33,8 @@ public class UketimetallCacheService extends CacheService<FintResource<Uketimeta
     @Autowired
     private ConsumerProps props;
 
-    public UketimetallCacheService() {
-        super(MODEL, KodeverkActions.GET_ALL_UKETIMETALL);
+    public FravarsgrunnCacheService() {
+        super(MODEL, KodeverkActions.GET_ALL_FRAVARSGRUNN);
     }
 
     @PostConstruct
@@ -42,7 +42,7 @@ public class UketimetallCacheService extends CacheService<FintResource<Uketimeta
         Arrays.stream(props.getOrgs()).forEach(this::createCache);
     }
 
-    @Scheduled(initialDelayString = ConsumerProps.CACHE_INITIALDELAY_UKETIMETALL, fixedRateString = ConsumerProps.CACHE_FIXEDRATE_UKETIMETALL)
+    @Scheduled(initialDelayString = ConsumerProps.CACHE_INITIALDELAY_FRAVARSGRUNN, fixedRateString = ConsumerProps.CACHE_FIXEDRATE_FRAVARSGRUNN)
     public void populateCacheAll() {
         Arrays.stream(props.getOrgs()).forEach(this::populateCache);
     }
@@ -53,17 +53,17 @@ public class UketimetallCacheService extends CacheService<FintResource<Uketimeta
 	}
 
     private void populateCache(String orgId) {
-		log.info("Populating Uketimetall cache for {}", orgId);
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_UKETIMETALL, Constants.CACHE_SERVICE);
+		log.info("Populating Fravarsgrunn cache for {}", orgId);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_FRAVARSGRUNN, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);
     }
 
 
-    public Optional<FintResource<Uketimetall>> getUketimetallBySystemId(String orgId, String systemId) {
+    public Optional<FintResource<Fravarsgrunn>> getFravarsgrunnBySystemId(String orgId, String systemId) {
         return getOne(orgId, (fintResource) -> Optional
                 .ofNullable(fintResource)
                 .map(FintResource::getResource)
-                .map(Uketimetall::getSystemId)
+                .map(Fravarsgrunn::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(id -> id.equals(systemId))
                 .orElse(false));
@@ -72,7 +72,7 @@ public class UketimetallCacheService extends CacheService<FintResource<Uketimeta
 
 	@Override
     public void onAction(Event event) {
-        update(event, new TypeReference<List<FintResource<Uketimetall>>>() {
+        update(event, new TypeReference<List<FintResource<Fravarsgrunn>>>() {
         });
     }
 }

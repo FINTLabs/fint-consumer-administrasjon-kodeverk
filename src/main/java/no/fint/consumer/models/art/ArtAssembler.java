@@ -13,9 +13,13 @@ public class ArtAssembler extends FintResourceAssembler<Art> {
         super(ArtController.class);
     }
 
+
     @Override
-    public FintResourceSupport assemble(Art art, FintResource<Art> fintResource) {
+    public FintResourceSupport assemble(Art art , FintResource<Art> fintResource) {
         return createResourceWithId(art.getSystemId().getIdentifikatorverdi(), fintResource, "systemid");
     }
+    
+    
+    
 }
 
