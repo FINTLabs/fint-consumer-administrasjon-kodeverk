@@ -65,7 +65,7 @@ public class FunksjonCacheService extends CacheService<FintResource<Funksjon>> {
                 .map(FintResource::getResource)
                 .map(Funksjon::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

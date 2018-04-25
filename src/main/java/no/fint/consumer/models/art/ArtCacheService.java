@@ -65,7 +65,7 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
                 .map(FintResource::getResource)
                 .map(Art::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

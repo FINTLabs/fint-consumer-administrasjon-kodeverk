@@ -65,7 +65,7 @@ public class PersonalressurskategoriCacheService extends CacheService<FintResour
                 .map(FintResource::getResource)
                 .map(Personalressurskategori::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

@@ -65,7 +65,7 @@ public class AnsvarCacheService extends CacheService<FintResource<Ansvar>> {
                 .map(FintResource::getResource)
                 .map(Ansvar::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

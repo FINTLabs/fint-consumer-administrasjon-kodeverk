@@ -65,7 +65,7 @@ public class StillingskodeCacheService extends CacheService<FintResource<Stillin
                 .map(FintResource::getResource)
                 .map(Stillingskode::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

@@ -65,7 +65,7 @@ public class ArbeidsforholdstypeCacheService extends CacheService<FintResource<A
                 .map(FintResource::getResource)
                 .map(Arbeidsforholdstype::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

@@ -65,7 +65,7 @@ public class UketimetallCacheService extends CacheService<FintResource<Uketimeta
                 .map(FintResource::getResource)
                 .map(Uketimetall::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 

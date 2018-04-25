@@ -65,7 +65,7 @@ public class ProsjektCacheService extends CacheService<FintResource<Prosjekt>> {
                 .map(FintResource::getResource)
                 .map(Prosjekt::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
-                .map(id -> id.equals(systemId))
+                .map(_id -> _id.equals(systemId))
                 .orElse(false));
     }
 
