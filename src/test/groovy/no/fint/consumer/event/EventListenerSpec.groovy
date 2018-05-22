@@ -1,13 +1,16 @@
 package no.fint.consumer.event
 
+import no.fint.consumer.status.StatusCache
 import no.fint.event.model.Event
 import spock.lang.Specification
 
 class EventListenerSpec extends Specification {
     private EventListener eventListener
+    private StatusCache statusCache
 
     void setup() {
-        eventListener = new EventListener(cacheServices: [])
+        statusCache = Mock(StatusCache)
+        eventListener = new EventListener(cacheServices: [], statusCache: statusCache)
     }
 
     def "No exception is thrown when receiving event"() {
@@ -16,5 +19,7 @@ class EventListenerSpec extends Specification {
 
         then:
         noExceptionThrown()
+        1 * statusCache.containsKey('123') >> true
+        1 * statusCache.put(_ as String, _ as Event)
     }
 }
