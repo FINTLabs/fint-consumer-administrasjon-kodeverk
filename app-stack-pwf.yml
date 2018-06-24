@@ -2,7 +2,7 @@ version: '3'
 
 services:
   provider:
-   image: dtr.rogfk.no/fint-beta/provider
+   image: dtr.rogfk.no/fint-beta/provider:PR-9
    ports:
      - "8420:8080"
    environment:
@@ -11,7 +11,6 @@ services:
     fint.events.orgIds: "pwf.no, fint.health"
     fint.events.component: pwf
     fint.events.env: pwf
-    fint.audit.mongo.hostname: 152.93.213.138
     fint.audit.mongo.databasename: fint-audit-pwf
     fint.hazelcast.members: consumer,provider
    deploy:
@@ -33,10 +32,11 @@ services:
     TZ: Europe/Oslo
     server.context-path: /administrasjon/kodeverk
     fint.events.orgIds: "pwf.no, fint.health"
+    fint.consumer.override-org-id: "true"
+    fint.consumer.default-org-id: "pwf.no"
     fint.events.component: pwf
     fint.events.env: pwf
     fint.relations.default-base-url: "https://play-with-fint.felleskomponent.no"
-    fint.audit.mongo.hostname: 152.93.213.138
     fint.audit.mongo.databasename: fint-audit-pwf
     fint.hazelcast.members: consumer,provider
     fint.consumer.cache-manager: hazelcast
