@@ -27,7 +27,7 @@ import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestEndpoints.FUNKSJON, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(name = "Funksjon", value = RestEndpoints.FUNKSJON, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class FunksjonController {
 
     @Autowired

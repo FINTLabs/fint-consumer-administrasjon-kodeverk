@@ -7,7 +7,7 @@ pipeline {
                     props=readProperties file: 'gradle.properties'
                     VERSION="${props.version}-${props.apiVersion}"
                 }
-                sh "docker build --tag 'dtr.rogfk.no/fint-beta/consumer-administrasjon-kodeverk:${VERSION}' --build-arg apiVersion=${props.apiVersion} ."
+                sh "docker build --tag ${GIT_COMMIT} --build-arg apiVersion=${props.apiVersion} ."
             }
         }
         stage('Publish') {
@@ -15,8 +15,18 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withDockerRegistry([credentialsId: 'dtr-rogfk-no', url: 'https://dtr.rogfk.no']) {
-                    sh "docker push 'dtr.rogfk.no/fint-beta/consumer-administrasjon-kodeverk:${VERSION}'"
+                sh "docker tag ${GIT_COMMIT} dtr.fintlabs.no/beta/consumer-administrasjon-kodeverk:${VERSION}"
+                withDockerRegistry([credentialsId: 'dtr-fintlabs-no', url: 'https://dtr.fintlabs.no']) {
+                    sh "docker push 'dtr.fintlabs.no/beta/consumer-administrasjon-kodeverk:${VERSION}'"
+                }
+            }
+        }
+        stage('Publish PR') {
+            when { changeRequest() }
+            steps {
+                sh "docker tag ${GIT_COMMIT} dtr.fintlabs.no/beta/consumer-administrasjon-kodeverk:${BRANCH_NAME}"
+                withDockerRegistry([credentialsId: 'dtr-fintlabs-no', url: 'https://dtr.fintlabs.no']) {
+                    sh "docker push 'dtr.fintlabs.no/beta/consumer-administrasjon-kodeverk:${BRANCH_NAME}'"
                 }
             }
         }
