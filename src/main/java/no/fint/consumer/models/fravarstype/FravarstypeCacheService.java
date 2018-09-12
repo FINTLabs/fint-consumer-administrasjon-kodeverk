@@ -1,15 +1,22 @@
 package no.fint.consumer.models.fravarstype;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import lombok.extern.slf4j.Slf4j;
+
 import no.fint.cache.CacheService;
 import no.fint.consumer.config.Constants;
 import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
 import no.fint.event.model.Event;
-import no.fint.model.relation.FintResource;
+import no.fint.event.model.ResponseStatus;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.relations.FintResourceCompatibility;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +26,20 @@ import java.util.List;
 import java.util.Optional;
 
 import no.fint.model.administrasjon.kodeverk.Fravarstype;
+import no.fint.model.resource.administrasjon.kodeverk.FravarstypeResource;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Service
-public class FravarstypeCacheService extends CacheService<FintResource<Fravarstype>> {
+public class FravarstypeCacheService extends CacheService<FravarstypeResource> {
 
     public static final String MODEL = Fravarstype.class.getSimpleName().toLowerCase();
+
+    @Value("${fint.consumer.compatibility.fintresource:true}")
+    private boolean checkFintResourceCompatibility;
+
+    @Autowired
+    private FintResourceCompatibility fintResourceCompatibility;
 
     @Autowired
     private ConsumerEventUtil consumerEventUtil;
@@ -33,8 +47,18 @@ public class FravarstypeCacheService extends CacheService<FintResource<Fravarsty
     @Autowired
     private ConsumerProps props;
 
+    @Autowired
+    private FravarstypeLinker linker;
+
+    private JavaType javaType;
+
+    private ObjectMapper objectMapper;
+
     public FravarstypeCacheService() {
-        super(MODEL, KodeverkActions.GET_ALL_FRAVARSTYPE);
+        super(MODEL, KodeverkActions.GET_ALL_FRAVARSTYPE, KodeverkActions.UPDATE_FRAVARSTYPE);
+        objectMapper = new ObjectMapper();
+        javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, FravarstypeResource.class);
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
     @PostConstruct
@@ -59,11 +83,10 @@ public class FravarstypeCacheService extends CacheService<FintResource<Fravarsty
     }
 
 
-    public Optional<FintResource<Fravarstype>> getFravarstypeBySystemId(String orgId, String systemId) {
-        return getOne(orgId, (fintResource) -> Optional
-                .ofNullable(fintResource)
-                .map(FintResource::getResource)
-                .map(Fravarstype::getSystemId)
+    public Optional<FravarstypeResource> getFravarstypeBySystemId(String orgId, String systemId) {
+        return getOne(orgId, (resource) -> Optional
+                .ofNullable(resource)
+                .map(FravarstypeResource::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(_id -> _id.equals(systemId))
                 .orElse(false));
@@ -72,7 +95,24 @@ public class FravarstypeCacheService extends CacheService<FintResource<Fravarsty
 
 	@Override
     public void onAction(Event event) {
-        update(event, new TypeReference<List<FintResource<Fravarstype>>>() {
-        });
+        List<FravarstypeResource> data;
+        if (checkFintResourceCompatibility && fintResourceCompatibility.isFintResourceData(event.getData())) {
+            log.info("Compatibility: Converting FintResource<FravarstypeResource> to FravarstypeResource ...");
+            data = fintResourceCompatibility.convertResourceData(event.getData(), FravarstypeResource.class);
+        } else {
+            data = objectMapper.convertValue(event.getData(), javaType);
+        }
+        data.forEach(linker::mapLinks);
+        if (KodeverkActions.valueOf(event.getAction()) == KodeverkActions.UPDATE_FRAVARSTYPE) {
+            if (event.getResponseStatus() == ResponseStatus.ACCEPTED || event.getResponseStatus() == ResponseStatus.CONFLICT) {
+                add(event.getOrgId(), data);
+                log.info("Added {} elements to cache for {}", data.size(), event.getOrgId());
+            } else {
+                log.debug("Ignoring payload for {} with response status {}", event.getOrgId(), event.getResponseStatus());
+            }
+        } else {
+            update(event.getOrgId(), data);
+            log.info("Updated cache for {} with {} elements", event.getOrgId(), data.size());
+        }
     }
 }

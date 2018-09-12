@@ -1,15 +1,22 @@
 package no.fint.consumer.models.art;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import lombok.extern.slf4j.Slf4j;
+
 import no.fint.cache.CacheService;
 import no.fint.consumer.config.Constants;
 import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
 import no.fint.event.model.Event;
-import no.fint.model.relation.FintResource;
+import no.fint.event.model.ResponseStatus;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.relations.FintResourceCompatibility;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +26,20 @@ import java.util.List;
 import java.util.Optional;
 
 import no.fint.model.administrasjon.kodeverk.Art;
+import no.fint.model.resource.administrasjon.kodeverk.ArtResource;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Service
-public class ArtCacheService extends CacheService<FintResource<Art>> {
+public class ArtCacheService extends CacheService<ArtResource> {
 
     public static final String MODEL = Art.class.getSimpleName().toLowerCase();
+
+    @Value("${fint.consumer.compatibility.fintresource:true}")
+    private boolean checkFintResourceCompatibility;
+
+    @Autowired
+    private FintResourceCompatibility fintResourceCompatibility;
 
     @Autowired
     private ConsumerEventUtil consumerEventUtil;
@@ -33,8 +47,18 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
     @Autowired
     private ConsumerProps props;
 
+    @Autowired
+    private ArtLinker linker;
+
+    private JavaType javaType;
+
+    private ObjectMapper objectMapper;
+
     public ArtCacheService() {
-        super(MODEL, KodeverkActions.GET_ALL_ART);
+        super(MODEL, KodeverkActions.GET_ALL_ART, KodeverkActions.UPDATE_ART);
+        objectMapper = new ObjectMapper();
+        javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, ArtResource.class);
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
     @PostConstruct
@@ -59,11 +83,10 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
     }
 
 
-    public Optional<FintResource<Art>> getArtBySystemId(String orgId, String systemId) {
-        return getOne(orgId, (fintResource) -> Optional
-                .ofNullable(fintResource)
-                .map(FintResource::getResource)
-                .map(Art::getSystemId)
+    public Optional<ArtResource> getArtBySystemId(String orgId, String systemId) {
+        return getOne(orgId, (resource) -> Optional
+                .ofNullable(resource)
+                .map(ArtResource::getSystemId)
                 .map(Identifikator::getIdentifikatorverdi)
                 .map(_id -> _id.equals(systemId))
                 .orElse(false));
@@ -72,7 +95,24 @@ public class ArtCacheService extends CacheService<FintResource<Art>> {
 
 	@Override
     public void onAction(Event event) {
-        update(event, new TypeReference<List<FintResource<Art>>>() {
-        });
+        List<ArtResource> data;
+        if (checkFintResourceCompatibility && fintResourceCompatibility.isFintResourceData(event.getData())) {
+            log.info("Compatibility: Converting FintResource<ArtResource> to ArtResource ...");
+            data = fintResourceCompatibility.convertResourceData(event.getData(), ArtResource.class);
+        } else {
+            data = objectMapper.convertValue(event.getData(), javaType);
+        }
+        data.forEach(linker::mapLinks);
+        if (KodeverkActions.valueOf(event.getAction()) == KodeverkActions.UPDATE_ART) {
+            if (event.getResponseStatus() == ResponseStatus.ACCEPTED || event.getResponseStatus() == ResponseStatus.CONFLICT) {
+                add(event.getOrgId(), data);
+                log.info("Added {} elements to cache for {}", data.size(), event.getOrgId());
+            } else {
+                log.debug("Ignoring payload for {} with response status {}", event.getOrgId(), event.getResponseStatus());
+            }
+        } else {
+            update(event.getOrgId(), data);
+            log.info("Updated cache for {} with {} elements", event.getOrgId(), data.size());
+        }
     }
 }
