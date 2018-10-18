@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class ProsjektLinker extends FintLinker<ProsjektResource> {
 
@@ -29,7 +33,7 @@ public class ProsjektLinker extends FintLinker<ProsjektResource> {
 
     @Override
     public String getSelfHref(ProsjektResource prosjekt) {
-        if (prosjekt.getSystemId() != null && prosjekt.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(prosjekt.getSystemId()) && !isEmpty(prosjekt.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(prosjekt.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         

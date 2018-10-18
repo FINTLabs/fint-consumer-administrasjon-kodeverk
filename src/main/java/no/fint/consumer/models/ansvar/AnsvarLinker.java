@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class AnsvarLinker extends FintLinker<AnsvarResource> {
 
@@ -29,7 +33,7 @@ public class AnsvarLinker extends FintLinker<AnsvarResource> {
 
     @Override
     public String getSelfHref(AnsvarResource ansvar) {
-        if (ansvar.getSystemId() != null && ansvar.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(ansvar.getSystemId()) && !isEmpty(ansvar.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(ansvar.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         

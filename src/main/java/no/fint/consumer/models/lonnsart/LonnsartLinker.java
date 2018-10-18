@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class LonnsartLinker extends FintLinker<LonnsartResource> {
 
@@ -29,7 +33,7 @@ public class LonnsartLinker extends FintLinker<LonnsartResource> {
 
     @Override
     public String getSelfHref(LonnsartResource lonnsart) {
-        if (lonnsart.getSystemId() != null && lonnsart.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(lonnsart.getSystemId()) && !isEmpty(lonnsart.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(lonnsart.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         

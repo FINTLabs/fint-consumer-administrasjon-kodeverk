@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class UketimetallLinker extends FintLinker<UketimetallResource> {
 
@@ -29,7 +33,7 @@ public class UketimetallLinker extends FintLinker<UketimetallResource> {
 
     @Override
     public String getSelfHref(UketimetallResource uketimetall) {
-        if (uketimetall.getSystemId() != null && uketimetall.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(uketimetall.getSystemId()) && !isEmpty(uketimetall.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(uketimetall.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         

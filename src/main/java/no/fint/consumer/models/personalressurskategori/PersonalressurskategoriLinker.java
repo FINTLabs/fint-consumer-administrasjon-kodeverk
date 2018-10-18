@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class PersonalressurskategoriLinker extends FintLinker<PersonalressurskategoriResource> {
 
@@ -29,7 +33,7 @@ public class PersonalressurskategoriLinker extends FintLinker<Personalressurskat
 
     @Override
     public String getSelfHref(PersonalressurskategoriResource personalressurskategori) {
-        if (personalressurskategori.getSystemId() != null && personalressurskategori.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(personalressurskategori.getSystemId()) && !isEmpty(personalressurskategori.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(personalressurskategori.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         

@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
+
+
 @Component
 public class ArbeidsforholdstypeLinker extends FintLinker<ArbeidsforholdstypeResource> {
 
@@ -29,7 +33,7 @@ public class ArbeidsforholdstypeLinker extends FintLinker<ArbeidsforholdstypeRes
 
     @Override
     public String getSelfHref(ArbeidsforholdstypeResource arbeidsforholdstype) {
-        if (arbeidsforholdstype.getSystemId() != null && arbeidsforholdstype.getSystemId().getIdentifikatorverdi() != null) {
+        if (!isNull(arbeidsforholdstype.getSystemId()) && !isEmpty(arbeidsforholdstype.getSystemId().getIdentifikatorverdi())) {
             return createHrefWithId(arbeidsforholdstype.getSystemId().getIdentifikatorverdi(), "systemid");
         }
         
