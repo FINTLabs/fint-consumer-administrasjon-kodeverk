@@ -19,6 +19,10 @@ pipeline {
                 withDockerRegistry([credentialsId: 'dtr-fintlabs-no', url: 'https://dtr.fintlabs.no']) {
                     sh "docker push 'dtr.fintlabs.no/beta/consumer-administrasjon-kodeverk:${VERSION}'"
                 }
+                sh "docker tag ${GIT_COMMIT} fintlabs.azurecr.io/consumer-administrasjon-kodeverk:${VERSION}"
+                withDockerRegistry([credentialsId: 'fintlabs.azurecr.io', url: 'https://fintlabs.azurecr.io']) {
+                    sh "docker push 'fintlabs.azurecr.io/consumer-administrasjon-kodeverk:${VERSION}'"
+                }
             }
         }
         stage('Publish Tag') {
