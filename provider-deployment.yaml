@@ -28,7 +28,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: provider-administrasjon-kodeverk
-          image: fintlabs.azurecr.io/provider:PR-25.4
+          image: fintlabs.azurecr.io/provider:PR-25.6
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -39,13 +39,13 @@ spec:
               path: /administrasjon/kodeverk/provider/health
           resources:
             limits:
-              memory: "1.5Gi"
+              memory: "2Gi"
               cpu: "500m"
           env:
             - name: TZ
               value: Europe/Oslo
             - name: JAVA_OPTS
-              value: "-Xmx1G"
+              value: "-Xmx1536m"
             - name: fint.audit.mongo.databasename
               value: fint-audit-beta
             - name: fint.audit.mongo.connection-string
@@ -65,5 +65,7 @@ spec:
               value: administrasjon-kodeverk
             - name: fint.provider.assets.endpoint
               value: https://admin-beta.fintlabs.no/api/components/assets/administrasjon_kodeverk
+            - name: fint.provider.max-number-of-emitters
+              value: "5"
             - name: server.context-path
               value: /administrasjon/kodeverk/provider
