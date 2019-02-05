@@ -40,7 +40,7 @@ spec:
           resources:
             limits:
               memory: "2Gi"
-              cpu: "1500m"
+              cpu: "750m"
           env:
             - name: TZ
               value: Europe/Oslo
