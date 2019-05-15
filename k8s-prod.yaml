@@ -106,7 +106,7 @@ spec:
           readinessProbe:
             httpGet: {path: /administrasjon/kodeverk/provider/health, port: 8080}
             initialDelaySeconds: 60
-            timeoutSeconds: 5
+            timeoutSeconds: 30
           resources:
             limits: {memory: 3Gi, cpu: '2'}
             requests: {memory: 2Gi, cpu: 250m}
