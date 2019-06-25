@@ -86,7 +86,7 @@ spec:
       containers:
       - env:
         - {name: TZ, value: Europe/Oslo}
-        - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx2G -verbose:gc'}
+        - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx3G -verbose:gc'}
         - {name: fint.audit.mongo.databasename, value: fint-audit-beta}
         - name: fint.audit.mongo.connection-string
           valueFrom:
@@ -108,6 +108,6 @@ spec:
           initialDelaySeconds: 60
           timeoutSeconds: 30
         resources:
-          limits: {memory: 3Gi, cpu: '2'}
-          requests: {memory: 2Gi, cpu: 250m}
+          limits: {memory: 4Gi, cpu: '2'}
+          requests: {memory: 3Gi, cpu: 250m}
       restartPolicy: Always
