@@ -75,7 +75,8 @@ public class StillingskodeCacheService extends CacheService<StillingskodeResourc
 		populateCache(orgId);
 	}
 
-    private void populateCache(String orgId) {
+    @Override
+    public void populateCache(String orgId) {
 		log.info("Populating Stillingskode cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_STILLINGSKODE, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);

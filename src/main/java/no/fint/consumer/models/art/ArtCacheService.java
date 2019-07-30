@@ -75,7 +75,8 @@ public class ArtCacheService extends CacheService<ArtResource> {
 		populateCache(orgId);
 	}
 
-    private void populateCache(String orgId) {
+    @Override
+    public void populateCache(String orgId) {
 		log.info("Populating Art cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_ART, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);

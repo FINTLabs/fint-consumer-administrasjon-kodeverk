@@ -75,7 +75,8 @@ public class FravarsgrunnCacheService extends CacheService<FravarsgrunnResource>
 		populateCache(orgId);
 	}
 
-    private void populateCache(String orgId) {
+    @Override
+    public void populateCache(String orgId) {
 		log.info("Populating Fravarsgrunn cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_FRAVARSGRUNN, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);

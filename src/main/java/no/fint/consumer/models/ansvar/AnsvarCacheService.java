@@ -75,7 +75,8 @@ public class AnsvarCacheService extends CacheService<AnsvarResource> {
 		populateCache(orgId);
 	}
 
-    private void populateCache(String orgId) {
+    @Override
+    public void populateCache(String orgId) {
 		log.info("Populating Ansvar cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_ANSVAR, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);
