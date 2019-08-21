@@ -98,6 +98,8 @@ spec:
         - {name: fint.hazelcast.kubernetes.labelValue, value: administrasjon-kodeverk}
         - {name: fint.provider.max-number-of-emitters, value: '5'}
         - {name: server.context-path, value: /administrasjon/kodeverk/provider}
+        - {name: server.tomcat.max-threads, value: '400'}
+        - {name: server.tomcat.max-connections, value: '20000'}
         - {name: fint.provider.assets.endpoint, value: 'https://admin.fintlabs.no/api/components/assets/administrasjon_kodeverk'}
         image: fintlabs.azurecr.io/provider:2.1.0
         name: provider-administrasjon-kodeverk
