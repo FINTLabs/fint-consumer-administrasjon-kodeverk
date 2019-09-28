@@ -43,6 +43,7 @@ spec:
         - {name: TZ, value: Europe/Oslo}
         - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx2G -verbose:gc'}
         - {name: fint.audit.mongo.databasename, value: fint-audit-beta}
+        - {name: fint.audit.mongo.collection, value: auditEvents}
         - name: fint.audit.mongo.connection-string
           valueFrom:
             secretKeyRef: {key: mongodb, name: fint-audit}
@@ -55,7 +56,7 @@ spec:
         - {name: fint.relations.default-base-url, value: 'https://beta.felleskomponent.no'}
         - {name: server.context-path, value: /administrasjon/kodeverk}
         - {name: spring.mvc.logResolvedException,  value: 'false'}
-        image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:PR-2.2
+        image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:PR-2.4
         name: consumer-administrasjon-kodeverk
         ports:
         - {containerPort: 8080}
@@ -89,6 +90,7 @@ spec:
         - {name: TZ, value: Europe/Oslo}
         - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx3G -verbose:gc'}
         - {name: fint.audit.mongo.databasename, value: fint-audit-beta}
+        - {name: fint.audit.mongo.collection, value: auditEvents}
         - name: fint.audit.mongo.connection-string
           valueFrom:
             secretKeyRef: {key: mongodb, name: fint-audit}
@@ -102,7 +104,7 @@ spec:
         - {name: server.tomcat.max-threads, value: '400'}
         - {name: server.tomcat.max-connections, value: '20000'}
         - {name: fint.provider.assets.endpoint, value: 'https://admin.fintlabs.no/api/components/assets/administrasjon_kodeverk'}
-        image: fintlabs.azurecr.io/provider:2.1.0
+        image: fintlabs.azurecr.io/provider:PR-32.5
         name: provider-administrasjon-kodeverk
         ports:
         - {containerPort: 8080}
