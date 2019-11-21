@@ -7,6 +7,7 @@ import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -39,6 +40,15 @@ public class FunksjonLinker extends FintLinker<FunksjonResource> {
         
         return null;
     }
-    
+
+    int[] hashCodes(FunksjonResource funksjon) {
+        IntStream.Builder builder = IntStream.builder();
+        if (!isNull(funksjon.getSystemId()) && !isEmpty(funksjon.getSystemId().getIdentifikatorverdi())) {
+            builder.add(funksjon.getSystemId().getIdentifikatorverdi().hashCode());
+        }
+        
+        return builder.build().toArray();
+    }
+
 }
 
