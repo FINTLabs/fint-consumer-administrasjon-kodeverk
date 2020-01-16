@@ -113,7 +113,7 @@ spec:
             - {name: server.tomcat.max-threads, value: '400'}
             - {name: server.tomcat.max-connections, value: '30000'}
             - {name: server.context-path, value: /administrasjon/kodeverk/provider}
-          image: fintlabs.azurecr.io/provider:PR-38.2
+          image: fintlabs.azurecr.io/provider:2.3.0-alpha-1
           name: provider-administrasjon-kodeverk
           ports:
             - {containerPort: 8080}
