@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
         - name: consumer-administrasjon-kodeverk
-          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:PR-16.9
+          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:PR-4.2
           envFrom:
             - configMapRef:
                 name: fint-environment
