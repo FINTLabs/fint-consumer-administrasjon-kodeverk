@@ -39,29 +39,20 @@ spec:
       labels: {fint.stack: administrasjon-kodeverk, fint.role: consumer}
     spec:
       containers:
-        - env:
-            - {name: TZ, value: Europe/Oslo}
-            - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx3G -verbose:gc'}
-            - {name: fint.audit.mongo.databasename, value: fint-audit-alpha}
-            - name: fint.audit.mongo.connection-string
-              valueFrom:
-                secretKeyRef: {key: mongodb, name: fint-audit}
-            - {name: fint.audit.mongo.collection, value: auditEvents}
-            - {name: fint.audit.mongo.buffer-size, value: '125000'}
-            - {name: fint.audit.mongo.rate, value: '1000'}
-            - {name: fint.cache.manager, value: default}
-            - {name: fint.events.orgIds, value: health.fintlabs.no}
+        - name: consumer-administrasjon-kodeverk
+          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:PR-4.2
+          envFrom:
+            - configMapRef:
+                name: fint-environment
+            - secretRef:
+                name: fint-events-azure-eventhub
+          env:
             - {name: fint.hazelcast.kubernetes.enabled, value: 'true'}
             - {name: fint.hazelcast.kubernetes.namespace, value: default}
             - {name: fint.hazelcast.kubernetes.labelName, value: fint.stack}
             - {name: fint.hazelcast.kubernetes.labelValue, value: administrasjon-kodeverk}
-            - {name: fint.relations.default-base-url, value: 'https://alpha.felleskomponent.no'}
+            - {name: fint.cache.packer, value: DEFLATE}
             - {name: server.context-path, value: /administrasjon/kodeverk}
-            - {name: spring.mvc.logResolvedException,  value: 'false'}
-            - {name: endpoints.sensitive, value: 'false'}
-            - {name: management.security.enabled, value: 'false'}
-          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:3.4.1
-          name: consumer-administrasjon-kodeverk
           ports:
             - {containerPort: 8080}
           readinessProbe:
@@ -90,31 +81,24 @@ spec:
       labels: {fint.stack: administrasjon-kodeverk, fint.role: provider}
     spec:
       containers:
-        - env:
-            - {name: TZ, value: Europe/Oslo}
-            - {name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx3G -verbose:gc'}
-            - {name: fint.audit.mongo.databasename, value: fint-audit-alpha}
-            - name: fint.audit.mongo.connection-string
-              valueFrom:
-                secretKeyRef: {key: mongodb, name: fint-audit}
-            - {name: fint.audit.mongo.collection, value: auditEvents}
-            - {name: fint.audit.mongo.buffer-size, value: '125000'}
-            - {name: fint.audit.mongo.rate, value: '1000'}
-            - {name: fint.events.orgIds, value: health.fintlabs.no}
+        - name: provider-administrasjon-kodeverk
+          image: fintlabs.azurecr.io/provider:PR-40.5
+          envFrom:
+            - configMapRef:
+                name: fint-environment
+            - secretRef:
+                name: fint-events-azure-eventhub
+          env:
             - {name: fint.hazelcast.kubernetes.enabled, value: 'true'}
             - {name: fint.hazelcast.kubernetes.namespace, value: default}
             - {name: fint.hazelcast.kubernetes.labelName, value: fint.stack}
             - {name: fint.hazelcast.kubernetes.labelValue, value: administrasjon-kodeverk}
+            - {name: fint.provider.assets.endpoint, value: 'https://admin-beta.fintlabs.no/api/components/assets/administrasjon_kodeverk'}
             - {name: fint.provider.max-number-of-emitters, value: '5'}
-            - {name: fint.provider.assets.endpoint, value: 'https://admin.fintlabs.no/api/components/assets/administrasjon_kodeverk'}
-            - {name: spring.mvc.logResolvedException,  value: 'false'}
-            - {name: endpoints.sensitive, value: 'false'}
-            - {name: management.security.enabled, value: 'false'}
+            - {name: fint.provider.sse.heartbeat.enabled, value: 'true'}
+            - {name: server.context-path, value: /administrasjon/kodeverk/provider}
             - {name: server.tomcat.max-threads, value: '400'}
             - {name: server.tomcat.max-connections, value: '30000'}
-            - {name: server.context-path, value: /administrasjon/kodeverk/provider}
-          image: fintlabs.azurecr.io/provider:2.3.0-alpha-1
-          name: provider-administrasjon-kodeverk
           ports:
             - {containerPort: 8080}
           readinessProbe:
