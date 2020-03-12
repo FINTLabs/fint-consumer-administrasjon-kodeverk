@@ -60,7 +60,12 @@ spec:
             - {name: spring.mvc.logResolvedException,  value: 'false'}
             - {name: endpoints.sensitive, value: 'false'}
             - {name: management.security.enabled, value: 'false'}
-          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:3.4.1
+          envFrom:
+            - configMapRef:
+                name: fint-environment
+            - secretRef:
+                name: fint-events-azure-eventhub
+          image: fintlabs.azurecr.io/consumer-administrasjon-kodeverk:build.22
           name: consumer-administrasjon-kodeverk
           ports:
             - {containerPort: 8080}
@@ -113,7 +118,12 @@ spec:
             - {name: server.tomcat.max-threads, value: '400'}
             - {name: server.tomcat.max-connections, value: '30000'}
             - {name: server.context-path, value: /administrasjon/kodeverk/provider}
-          image: fintlabs.azurecr.io/provider:2.3.0-alpha-1
+          envFrom:
+            - configMapRef:
+                name: fint-environment
+            - secretRef:
+                name: fint-events-azure-eventhub
+          image: fintlabs.azurecr.io/provider:2.3.0-alpha-2
           name: provider-administrasjon-kodeverk
           ports:
             - {containerPort: 8080}
