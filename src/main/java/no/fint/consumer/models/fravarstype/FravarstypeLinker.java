@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
-
 
 @Component
 public class FravarstypeLinker extends FintLinker<FravarstypeResource> {
@@ -34,11 +34,17 @@ public class FravarstypeLinker extends FintLinker<FravarstypeResource> {
 
     @Override
     public String getSelfHref(FravarstypeResource fravarstype) {
+        return getAllSelfHrefs(fravarstype).findFirst().orElse(null);
+    }
+
+    @Override
+    public Stream<String> getAllSelfHrefs(FravarstypeResource fravarstype) {
+        Stream.Builder<String> builder = Stream.builder();
         if (!isNull(fravarstype.getSystemId()) && !isEmpty(fravarstype.getSystemId().getIdentifikatorverdi())) {
-            return createHrefWithId(fravarstype.getSystemId().getIdentifikatorverdi(), "systemid");
+            builder.add(createHrefWithId(fravarstype.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
         
-        return null;
+        return builder.build();
     }
 
     int[] hashCodes(FravarstypeResource fravarstype) {

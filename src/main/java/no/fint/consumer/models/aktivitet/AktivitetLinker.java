@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
-
 
 @Component
 public class AktivitetLinker extends FintLinker<AktivitetResource> {
@@ -34,11 +34,17 @@ public class AktivitetLinker extends FintLinker<AktivitetResource> {
 
     @Override
     public String getSelfHref(AktivitetResource aktivitet) {
+        return getAllSelfHrefs(aktivitet).findFirst().orElse(null);
+    }
+
+    @Override
+    public Stream<String> getAllSelfHrefs(AktivitetResource aktivitet) {
+        Stream.Builder<String> builder = Stream.builder();
         if (!isNull(aktivitet.getSystemId()) && !isEmpty(aktivitet.getSystemId().getIdentifikatorverdi())) {
-            return createHrefWithId(aktivitet.getSystemId().getIdentifikatorverdi(), "systemid");
+            builder.add(createHrefWithId(aktivitet.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
         
-        return null;
+        return builder.build();
     }
 
     int[] hashCodes(AktivitetResource aktivitet) {
