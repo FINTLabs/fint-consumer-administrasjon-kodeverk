@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
-
 
 @Component
 public class LopenummerLinker extends FintLinker<LopenummerResource> {
@@ -34,11 +34,17 @@ public class LopenummerLinker extends FintLinker<LopenummerResource> {
 
     @Override
     public String getSelfHref(LopenummerResource lopenummer) {
+        return getAllSelfHrefs(lopenummer).findFirst().orElse(null);
+    }
+
+    @Override
+    public Stream<String> getAllSelfHrefs(LopenummerResource lopenummer) {
+        Stream.Builder<String> builder = Stream.builder();
         if (!isNull(lopenummer.getSystemId()) && !isEmpty(lopenummer.getSystemId().getIdentifikatorverdi())) {
-            return createHrefWithId(lopenummer.getSystemId().getIdentifikatorverdi(), "systemid");
+            builder.add(createHrefWithId(lopenummer.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
         
-        return null;
+        return builder.build();
     }
 
     int[] hashCodes(LopenummerResource lopenummer) {

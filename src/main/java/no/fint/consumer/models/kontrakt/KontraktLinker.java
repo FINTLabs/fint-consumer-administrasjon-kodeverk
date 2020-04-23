@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
-
 
 @Component
 public class KontraktLinker extends FintLinker<KontraktResource> {
@@ -34,11 +34,17 @@ public class KontraktLinker extends FintLinker<KontraktResource> {
 
     @Override
     public String getSelfHref(KontraktResource kontrakt) {
+        return getAllSelfHrefs(kontrakt).findFirst().orElse(null);
+    }
+
+    @Override
+    public Stream<String> getAllSelfHrefs(KontraktResource kontrakt) {
+        Stream.Builder<String> builder = Stream.builder();
         if (!isNull(kontrakt.getSystemId()) && !isEmpty(kontrakt.getSystemId().getIdentifikatorverdi())) {
-            return createHrefWithId(kontrakt.getSystemId().getIdentifikatorverdi(), "systemid");
+            builder.add(createHrefWithId(kontrakt.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
         
-        return null;
+        return builder.build();
     }
 
     int[] hashCodes(KontraktResource kontrakt) {

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.isEmpty;
-
 
 @Component
 public class PersonalressurskategoriLinker extends FintLinker<PersonalressurskategoriResource> {
@@ -34,11 +34,17 @@ public class PersonalressurskategoriLinker extends FintLinker<Personalressurskat
 
     @Override
     public String getSelfHref(PersonalressurskategoriResource personalressurskategori) {
+        return getAllSelfHrefs(personalressurskategori).findFirst().orElse(null);
+    }
+
+    @Override
+    public Stream<String> getAllSelfHrefs(PersonalressurskategoriResource personalressurskategori) {
+        Stream.Builder<String> builder = Stream.builder();
         if (!isNull(personalressurskategori.getSystemId()) && !isEmpty(personalressurskategori.getSystemId().getIdentifikatorverdi())) {
-            return createHrefWithId(personalressurskategori.getSystemId().getIdentifikatorverdi(), "systemid");
+            builder.add(createHrefWithId(personalressurskategori.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
         
-        return null;
+        return builder.build();
     }
 
     int[] hashCodes(PersonalressurskategoriResource personalressurskategori) {
