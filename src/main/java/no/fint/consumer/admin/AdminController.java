@@ -61,12 +61,13 @@ public class AdminController {
         consumerEventUtil.send(event);
 
         Event<Health> health = queue.poll(30, TimeUnit.SECONDS);
-        log.debug("Health check response: {}", health);
 
         if (health != null) {
+            log.debug("Health check response: {}", health.getData());
             health.addData(new Health(Constants.COMPONENT_CONSUMER, HealthStatus.RECEIVED_IN_CONSUMER_FROM_PROVIDER));
             return ResponseEntity.ok(health);
         } else {
+            log.debug("No response to health event.");
             event.setMessage("No response from adapter");
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(event);
         }
