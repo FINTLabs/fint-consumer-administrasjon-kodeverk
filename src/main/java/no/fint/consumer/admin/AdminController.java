@@ -53,6 +53,7 @@ public class AdminController {
     @GetMapping("/health")
     public ResponseEntity healthCheck(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
                                       @RequestHeader(HeaderConstants.CLIENT) String client) throws InterruptedException {
+        log.debug("Health check on {} requested by {} ...", orgId, client);
         Event<Health> event = new Event<>(orgId, Constants.COMPONENT, DefaultActions.HEALTH, client);
         event.addData(new Health(Constants.COMPONENT_CONSUMER, HealthStatus.SENT_FROM_CONSUMER_TO_PROVIDER));
 
@@ -60,6 +61,7 @@ public class AdminController {
         consumerEventUtil.send(event);
 
         Event<Health> health = queue.poll(30, TimeUnit.SECONDS);
+        log.debug("Health check response: {}", health);
 
         if (health != null) {
             health.addData(new Health(Constants.COMPONENT_CONSUMER, HealthStatus.RECEIVED_IN_CONSUMER_FROM_PROVIDER));
