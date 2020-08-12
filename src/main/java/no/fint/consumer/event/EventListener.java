@@ -86,7 +86,7 @@ public class EventListener implements FintEventListener {
         if (event.isHealthCheck()) {
             log.debug("Ignoring health check.");
             return;
-        }   
+        }
         if (event.getResponseStatus() == ResponseStatus.REJECTED || event.getResponseStatus() == ResponseStatus.ERROR) {
             log.debug("Ignoring response status {}", event.getResponseStatus());
             return;
