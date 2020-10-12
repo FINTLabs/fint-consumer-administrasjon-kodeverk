@@ -1,6 +1,5 @@
 package no.fint.consumer.models.funksjon;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.FunksjonResource;
 import no.fint.model.resource.administrasjon.kodeverk.FunksjonResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class FunksjonLinker extends FintLinker<FunksjonResource> {
 
     @Override
     public FunksjonResources toResources(Collection<FunksjonResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public FunksjonResources toResources(Stream<FunksjonResource> stream, int offset, int size, int totalItems) {
         FunksjonResources resources = new FunksjonResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 

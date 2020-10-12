@@ -1,6 +1,5 @@
 package no.fint.consumer.models.art;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.ArtResource;
 import no.fint.model.resource.administrasjon.kodeverk.ArtResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class ArtLinker extends FintLinker<ArtResource> {
 
     @Override
     public ArtResources toResources(Collection<ArtResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public ArtResources toResources(Stream<ArtResource> stream, int offset, int size, int totalItems) {
         ArtResources resources = new ArtResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 

@@ -1,6 +1,5 @@
 package no.fint.consumer.models.aktivitet;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.AktivitetResource;
 import no.fint.model.resource.administrasjon.kodeverk.AktivitetResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class AktivitetLinker extends FintLinker<AktivitetResource> {
 
     @Override
     public AktivitetResources toResources(Collection<AktivitetResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public AktivitetResources toResources(Stream<AktivitetResource> stream, int offset, int size, int totalItems) {
         AktivitetResources resources = new AktivitetResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 

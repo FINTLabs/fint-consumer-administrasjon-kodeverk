@@ -1,6 +1,5 @@
 package no.fint.consumer.models.anlegg;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.AnleggResource;
 import no.fint.model.resource.administrasjon.kodeverk.AnleggResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class AnleggLinker extends FintLinker<AnleggResource> {
 
     @Override
     public AnleggResources toResources(Collection<AnleggResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public AnleggResources toResources(Stream<AnleggResource> stream, int offset, int size, int totalItems) {
         AnleggResources resources = new AnleggResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 
