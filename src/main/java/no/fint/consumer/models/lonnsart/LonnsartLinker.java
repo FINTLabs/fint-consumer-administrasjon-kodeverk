@@ -1,6 +1,5 @@
 package no.fint.consumer.models.lonnsart;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.LonnsartResource;
 import no.fint.model.resource.administrasjon.kodeverk.LonnsartResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class LonnsartLinker extends FintLinker<LonnsartResource> {
 
     @Override
     public LonnsartResources toResources(Collection<LonnsartResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public LonnsartResources toResources(Stream<LonnsartResource> stream, int offset, int size, int totalItems) {
         LonnsartResources resources = new LonnsartResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 

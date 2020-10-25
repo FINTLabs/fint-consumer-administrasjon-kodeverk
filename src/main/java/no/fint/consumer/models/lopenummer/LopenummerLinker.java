@@ -1,6 +1,5 @@
 package no.fint.consumer.models.lopenummer;
 
-import no.fint.model.resource.Link;
 import no.fint.model.resource.administrasjon.kodeverk.LopenummerResource;
 import no.fint.model.resource.administrasjon.kodeverk.LopenummerResources;
 import no.fint.relations.FintLinker;
@@ -26,9 +25,14 @@ public class LopenummerLinker extends FintLinker<LopenummerResource> {
 
     @Override
     public LopenummerResources toResources(Collection<LopenummerResource> collection) {
+        return toResources(collection.stream(), 0, 0, collection.size());
+    }
+
+    @Override
+    public LopenummerResources toResources(Stream<LopenummerResource> stream, int offset, int size, int totalItems) {
         LopenummerResources resources = new LopenummerResources();
-        collection.stream().map(this::toResource).forEach(resources::addResource);
-        resources.addSelf(Link.with(self()));
+        stream.map(this::toResource).forEach(resources::addResource);
+        addPagination(resources, offset, size, totalItems);
         return resources;
     }
 
