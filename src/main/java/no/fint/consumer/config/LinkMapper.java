@@ -3,8 +3,24 @@ package no.fint.consumer.config;
 import no.fint.consumer.utils.RestEndpoints;
 import java.util.Map;
 import com.google.common.collect.ImmutableMap;
-
-import no.fint.model.administrasjon.kodeverk.*;
+import no.fint.model.administrasjon.kodeverk.Aktivitet;
+import no.fint.model.administrasjon.kodeverk.Anlegg;
+import no.fint.model.administrasjon.kodeverk.Ansvar;
+import no.fint.model.administrasjon.kodeverk.Arbeidsforholdstype;
+import no.fint.model.administrasjon.kodeverk.Art;
+import no.fint.model.administrasjon.kodeverk.Diverse;
+import no.fint.model.administrasjon.kodeverk.Fravarsgrunn;
+import no.fint.model.administrasjon.kodeverk.Fravarstype;
+import no.fint.model.administrasjon.kodeverk.Funksjon;
+import no.fint.model.administrasjon.kodeverk.Kontrakt;
+import no.fint.model.administrasjon.kodeverk.Lonnsart;
+import no.fint.model.administrasjon.kodeverk.Lopenummer;
+import no.fint.model.administrasjon.kodeverk.Objekt;
+import no.fint.model.administrasjon.kodeverk.Personalressurskategori;
+import no.fint.model.administrasjon.kodeverk.Prosjekt;
+import no.fint.model.administrasjon.kodeverk.Ramme;
+import no.fint.model.administrasjon.kodeverk.Stillingskode;
+import no.fint.model.administrasjon.kodeverk.Uketimetall;
 
 public class LinkMapper {
 
