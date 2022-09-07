@@ -10,6 +10,7 @@ public enum RestEndpoints {
 	public static final String ARBEIDSFORHOLDSTYPE = "/arbeidsforholdstype";
 	public static final String ART = "/art";
 	public static final String DIVERSE = "/diverse";
+	public static final String FORMAL = "/formal";
 	public static final String FRAVARSGRUNN = "/fravarsgrunn";
 	public static final String FRAVARSTYPE = "/fravarstype";
 	public static final String FUNKSJON = "/funksjon";

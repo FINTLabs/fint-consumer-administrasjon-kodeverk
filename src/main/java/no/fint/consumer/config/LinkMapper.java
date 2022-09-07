@@ -9,6 +9,7 @@ import no.fint.model.administrasjon.kodeverk.Ansvar;
 import no.fint.model.administrasjon.kodeverk.Arbeidsforholdstype;
 import no.fint.model.administrasjon.kodeverk.Art;
 import no.fint.model.administrasjon.kodeverk.Diverse;
+import no.fint.model.administrasjon.kodeverk.Formal;
 import no.fint.model.administrasjon.kodeverk.Fravarsgrunn;
 import no.fint.model.administrasjon.kodeverk.Fravarstype;
 import no.fint.model.administrasjon.kodeverk.Funksjon;
@@ -32,6 +33,7 @@ public class LinkMapper {
             .put(Arbeidsforholdstype.class.getName(), contextPath + RestEndpoints.ARBEIDSFORHOLDSTYPE)
             .put(Art.class.getName(), contextPath + RestEndpoints.ART)
             .put(Diverse.class.getName(), contextPath + RestEndpoints.DIVERSE)
+            .put(Formal.class.getName(), contextPath + RestEndpoints.FORMAL)
             .put(Fravarsgrunn.class.getName(), contextPath + RestEndpoints.FRAVARSGRUNN)
             .put(Fravarstype.class.getName(), contextPath + RestEndpoints.FRAVARSTYPE)
             .put(Funksjon.class.getName(), contextPath + RestEndpoints.FUNKSJON)
