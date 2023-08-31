@@ -19,6 +19,7 @@ import no.fint.model.administrasjon.kodeverk.Lopenummer;
 import no.fint.model.administrasjon.kodeverk.Objekt;
 import no.fint.model.administrasjon.kodeverk.Personalressurskategori;
 import no.fint.model.administrasjon.kodeverk.Prosjekt;
+import no.fint.model.administrasjon.kodeverk.Prosjektart;
 import no.fint.model.administrasjon.kodeverk.Ramme;
 import no.fint.model.administrasjon.kodeverk.Stillingskode;
 import no.fint.model.administrasjon.kodeverk.Uketimetall;
@@ -43,6 +44,7 @@ public class LinkMapper {
             .put(Objekt.class.getName(), contextPath + RestEndpoints.OBJEKT)
             .put(Personalressurskategori.class.getName(), contextPath + RestEndpoints.PERSONALRESSURSKATEGORI)
             .put(Prosjekt.class.getName(), contextPath + RestEndpoints.PROSJEKT)
+            .put(Prosjektart.class.getName(), contextPath + RestEndpoints.PROSJEKTART)
             .put(Ramme.class.getName(), contextPath + RestEndpoints.RAMME)
             .put(Stillingskode.class.getName(), contextPath + RestEndpoints.STILLINGSKODE)
             .put(Uketimetall.class.getName(), contextPath + RestEndpoints.UKETIMETALL)

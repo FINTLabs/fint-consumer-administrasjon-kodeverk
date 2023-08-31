@@ -20,6 +20,7 @@ public enum RestEndpoints {
 	public static final String OBJEKT = "/objekt";
 	public static final String PERSONALRESSURSKATEGORI = "/personalressurskategori";
 	public static final String PROSJEKT = "/prosjekt";
+	public static final String PROSJEKTART = "/prosjektart";
 	public static final String RAMME = "/ramme";
 	public static final String STILLINGSKODE = "/stillingskode";
 	public static final String UKETIMETALL = "/uketimetall";
