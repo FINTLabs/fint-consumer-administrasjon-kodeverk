@@ -107,10 +107,7 @@ public class DiverseCacheService extends CacheService<DiverseResource> {
         } else {
             data = objectMapper.convertValue(event.getData(), javaType);
         }
-        data.forEach(resource -> {
-            linker.mapLinks(resource);
-            linker.resetSelfLinks(resource);
-        });
+        data.forEach(linker::mapLinks);
         if (KodeverkActions.valueOf(event.getAction()) == KodeverkActions.UPDATE_DIVERSE) {
             if (event.getResponseStatus() == ResponseStatus.ACCEPTED || event.getResponseStatus() == ResponseStatus.CONFLICT) {
                 List<CacheObject<DiverseResource>> cacheObjects = data
