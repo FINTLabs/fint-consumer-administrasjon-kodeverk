@@ -182,7 +182,7 @@ public class LopenummerController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(lopenummer);
+            return linker.mapAndResetLinks(lopenummer);
         }    
     }
 

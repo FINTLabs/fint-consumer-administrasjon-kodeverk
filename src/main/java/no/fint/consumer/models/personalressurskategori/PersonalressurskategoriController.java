@@ -182,7 +182,7 @@ public class PersonalressurskategoriController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(personalressurskategori);
+            return linker.mapAndResetLinks(personalressurskategori);
         }    
     }
 

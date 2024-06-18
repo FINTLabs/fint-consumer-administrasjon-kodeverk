@@ -182,7 +182,7 @@ public class FravarsgrunnController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(fravarsgrunn);
+            return linker.mapAndResetLinks(fravarsgrunn);
         }    
     }
 

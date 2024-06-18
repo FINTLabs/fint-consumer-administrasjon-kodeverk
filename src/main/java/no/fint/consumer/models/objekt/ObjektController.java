@@ -182,7 +182,7 @@ public class ObjektController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(objekt);
+            return linker.mapAndResetLinks(objekt);
         }    
     }
 

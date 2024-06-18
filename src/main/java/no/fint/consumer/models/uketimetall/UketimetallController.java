@@ -182,7 +182,7 @@ public class UketimetallController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(uketimetall);
+            return linker.mapAndResetLinks(uketimetall);
         }    
     }
 

@@ -182,7 +182,7 @@ public class KontraktController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(kontrakt);
+            return linker.mapAndResetLinks(kontrakt);
         }    
     }
 

@@ -182,7 +182,7 @@ public class AktivitetController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(aktivitet);
+            return linker.mapAndResetLinks(aktivitet);
         }    
     }
 

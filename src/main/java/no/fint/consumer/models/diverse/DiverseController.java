@@ -182,7 +182,7 @@ public class DiverseController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(diverse);
+            return linker.mapAndResetLinks(diverse);
         }    
     }
 
