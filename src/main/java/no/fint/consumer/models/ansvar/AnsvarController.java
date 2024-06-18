@@ -182,7 +182,7 @@ public class AnsvarController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(ansvar);
+            return linker.mapAndResetLinks(ansvar);
         }    
     }
 

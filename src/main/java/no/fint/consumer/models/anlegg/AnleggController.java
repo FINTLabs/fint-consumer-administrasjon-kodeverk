@@ -182,7 +182,7 @@ public class AnleggController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(anlegg);
+            return linker.mapAndResetLinks(anlegg);
         }    
     }
 

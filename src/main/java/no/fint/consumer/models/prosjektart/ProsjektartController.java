@@ -182,7 +182,7 @@ public class ProsjektartController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(prosjektart);
+            return linker.mapAndResetLinks(prosjektart);
         }    
     }
 
