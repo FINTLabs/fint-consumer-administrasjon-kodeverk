@@ -107,10 +107,7 @@ public class KontraktCacheService extends CacheService<KontraktResource> {
         } else {
             data = objectMapper.convertValue(event.getData(), javaType);
         }
-        data.forEach(resource -> {
-            linker.mapLinks(resource);
-            linker.resetSelfLinks(resource);
-        });
+        data.forEach(linker::mapLinks);
         if (KodeverkActions.valueOf(event.getAction()) == KodeverkActions.UPDATE_KONTRAKT) {
             if (event.getResponseStatus() == ResponseStatus.ACCEPTED || event.getResponseStatus() == ResponseStatus.CONFLICT) {
                 List<CacheObject<KontraktResource>> cacheObjects = data

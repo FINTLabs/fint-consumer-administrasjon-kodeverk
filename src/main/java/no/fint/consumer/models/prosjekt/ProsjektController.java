@@ -182,7 +182,7 @@ public class ProsjektController {
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.toResource(prosjekt);
+            return linker.mapAndResetLinks(prosjekt);
         }    
     }
 
