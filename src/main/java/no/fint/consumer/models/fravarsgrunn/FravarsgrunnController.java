@@ -1,15 +1,13 @@
 package no.fint.consumer.models.fravarsgrunn;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
+import no.fint.antlr.FintFilterService;
 import no.fint.audit.FintAuditService;
-
-import no.fint.cache.exceptions.*;
+import no.fint.cache.exceptions.CacheNotFoundException;
 import no.fint.consumer.config.Constants;
 import no.fint.consumer.config.ConsumerProps;
 import no.fint.consumer.event.ConsumerEventUtil;
@@ -18,31 +16,29 @@ import no.fint.consumer.exceptions.*;
 import no.fint.consumer.status.StatusCache;
 import no.fint.consumer.utils.EventResponses;
 import no.fint.consumer.utils.RestEndpoints;
-
-import no.fint.event.model.*;
-
+import no.fint.event.model.Event;
+import no.fint.event.model.HeaderConstants;
+import no.fint.event.model.Operation;
+import no.fint.event.model.Status;
+import no.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
+import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResources;
 import no.fint.relations.FintRelationsMediaType;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.UnknownHostException;
-import java.net.URI;
-
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
-
-import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
-import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResources;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Api(tags = {"Fravarsgrunn"})
@@ -50,6 +46,8 @@ import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 @RestController
 @RequestMapping(name = "Fravarsgrunn", value = RestEndpoints.FRAVARSGRUNN, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class FravarsgrunnController {
+
+    private static final String ODATA_FILTER_QUERY_OPTION = "$filter=";
 
     @Autowired(required = false)
     private FravarsgrunnCacheService cacheService;
@@ -74,6 +72,9 @@ public class FravarsgrunnController {
 
     @Autowired
     private SynchronousEvents synchronousEvents;
+
+    @Autowired
+    private FintFilterService fintFilterService;
 
     @GetMapping("/last-updated")
     public Map<String, String> getLastUpdated(@RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId) {
@@ -105,8 +106,12 @@ public class FravarsgrunnController {
             @RequestParam(defaultValue = "0") long sinceTimeStamp,
             @RequestParam(defaultValue = "0") int size,
             @RequestParam(defaultValue = "0") int offset,
-            HttpServletRequest request) {
+            @RequestParam(required = false) String $filter,
+            HttpServletRequest request) throws InterruptedException {
         if (cacheService == null) {
+            if (StringUtils.isNotBlank($filter)) {
+                return getFravarsgrunnByOdataFilter(client, orgId, $filter);
+            }
             throw new CacheDisabledException("Fravarsgrunn cache is disabled.");
         }
         if (props.isOverrideOrgId() || orgId == null) {
@@ -139,6 +144,50 @@ public class FravarsgrunnController {
         fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
         return linker.toResources(resources, offset, size, cacheService.getCacheSize(orgId));
+    }
+
+    @PostMapping("/$query")
+    public FravarsgrunnResources getFravarsgrunnByQuery(
+            @RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId,
+            @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client,
+            @RequestParam(defaultValue = "0") long sinceTimeStamp,
+            @RequestParam(defaultValue = "0") int size,
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestBody(required = false) String query,
+            HttpServletRequest request
+    ) throws InterruptedException {
+        return getFravarsgrunn(orgId, client, sinceTimeStamp, size, offset, query, request);
+    }
+
+    private FravarsgrunnResources getFravarsgrunnByOdataFilter(
+            String client, String orgId, String $filter
+    ) throws InterruptedException {
+        if (!fintFilterService.validate($filter))
+            throw new IllegalArgumentException("OData Filter is not valid");
+
+        if (props.isOverrideOrgId() || orgId == null) orgId = props.getDefaultOrgId();
+        if (client == null) client = props.getDefaultClient();
+
+        Event event = new Event(
+                orgId, Constants.COMPONENT,
+                KodeverkActions.GET_FRAVARSGRUNN, client);
+        event.setOperation(Operation.READ);
+        event.setQuery(ODATA_FILTER_QUERY_OPTION.concat($filter));
+
+        BlockingQueue<Event> queue = synchronousEvents.register(event);
+        consumerEventUtil.send(event);
+
+        Event response = EventResponses.handle(queue.poll(5, TimeUnit.MINUTES));
+        if (response.getData() == null || response.getData().isEmpty())
+            return new FravarsgrunnResources();
+
+        ArrayList<FravarsgrunnResource> list = objectMapper.convertValue(
+                response.getData(),
+                new TypeReference<ArrayList<FravarsgrunnResource>>() {
+                });
+        fintAuditService.audit(response, Status.SENT_TO_CLIENT);
+        list.forEach(r -> linker.mapAndResetLinks(r));
+        return linker.toResources(list);
     }
 
 
@@ -183,10 +232,8 @@ public class FravarsgrunnController {
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
             return linker.mapAndResetLinks(fravarsgrunn);
-        }    
+        }
     }
-
-
 
 
     //

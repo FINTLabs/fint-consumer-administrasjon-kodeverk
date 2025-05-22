@@ -58,6 +58,8 @@ dependencies {
     compile('io.micrometer:micrometer-registry-prometheus:latest.release')
     compile('io.micrometer:micrometer-spring-legacy:latest.release')
 
+    compile("no.fintlabs:fint-antlr:1.2.0")
+
     testCompile('no.fint:fint-test-utils:0.0.6')
     testCompile("cglib:cglib-nodep:${cglibVersion}")
     testCompile("org.spockframework:spock-spring:${spockSpringVersion}")
