@@ -50,22 +50,25 @@ public enum Constants {
     public static final String CACHE_INITIALDELAY_OBJEKT = "${fint.consumer.cache.initialDelay.objekt:2200000}";
     public static final String CACHE_FIXEDRATE_OBJEKT = "${fint.consumer.cache.fixedRate.objekt:900000}";
     
-    public static final String CACHE_INITIALDELAY_PERSONALRESSURSKATEGORI = "${fint.consumer.cache.initialDelay.personalressurskategori:2300000}";
+    public static final String CACHE_INITIALDELAY_ORGANISASJONSTYPE = "${fint.consumer.cache.initialDelay.organisasjonstype:2300000}";
+    public static final String CACHE_FIXEDRATE_ORGANISASJONSTYPE = "${fint.consumer.cache.fixedRate.organisasjonstype:900000}";
+    
+    public static final String CACHE_INITIALDELAY_PERSONALRESSURSKATEGORI = "${fint.consumer.cache.initialDelay.personalressurskategori:2400000}";
     public static final String CACHE_FIXEDRATE_PERSONALRESSURSKATEGORI = "${fint.consumer.cache.fixedRate.personalressurskategori:900000}";
     
-    public static final String CACHE_INITIALDELAY_PROSJEKT = "${fint.consumer.cache.initialDelay.prosjekt:2400000}";
+    public static final String CACHE_INITIALDELAY_PROSJEKT = "${fint.consumer.cache.initialDelay.prosjekt:2500000}";
     public static final String CACHE_FIXEDRATE_PROSJEKT = "${fint.consumer.cache.fixedRate.prosjekt:900000}";
     
-    public static final String CACHE_INITIALDELAY_PROSJEKTART = "${fint.consumer.cache.initialDelay.prosjektart:2500000}";
+    public static final String CACHE_INITIALDELAY_PROSJEKTART = "${fint.consumer.cache.initialDelay.prosjektart:2600000}";
     public static final String CACHE_FIXEDRATE_PROSJEKTART = "${fint.consumer.cache.fixedRate.prosjektart:900000}";
     
-    public static final String CACHE_INITIALDELAY_RAMME = "${fint.consumer.cache.initialDelay.ramme:2600000}";
+    public static final String CACHE_INITIALDELAY_RAMME = "${fint.consumer.cache.initialDelay.ramme:2700000}";
     public static final String CACHE_FIXEDRATE_RAMME = "${fint.consumer.cache.fixedRate.ramme:900000}";
     
-    public static final String CACHE_INITIALDELAY_STILLINGSKODE = "${fint.consumer.cache.initialDelay.stillingskode:2700000}";
+    public static final String CACHE_INITIALDELAY_STILLINGSKODE = "${fint.consumer.cache.initialDelay.stillingskode:2800000}";
     public static final String CACHE_FIXEDRATE_STILLINGSKODE = "${fint.consumer.cache.fixedRate.stillingskode:900000}";
     
-    public static final String CACHE_INITIALDELAY_UKETIMETALL = "${fint.consumer.cache.initialDelay.uketimetall:2800000}";
+    public static final String CACHE_INITIALDELAY_UKETIMETALL = "${fint.consumer.cache.initialDelay.uketimetall:2900000}";
     public static final String CACHE_FIXEDRATE_UKETIMETALL = "${fint.consumer.cache.fixedRate.uketimetall:900000}";
     
 

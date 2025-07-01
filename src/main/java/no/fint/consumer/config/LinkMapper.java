@@ -17,6 +17,7 @@ import no.fint.model.administrasjon.kodeverk.Kontrakt;
 import no.fint.model.administrasjon.kodeverk.Lonnsart;
 import no.fint.model.administrasjon.kodeverk.Lopenummer;
 import no.fint.model.administrasjon.kodeverk.Objekt;
+import no.fint.model.administrasjon.kodeverk.Organisasjonstype;
 import no.fint.model.administrasjon.kodeverk.Personalressurskategori;
 import no.fint.model.administrasjon.kodeverk.Prosjekt;
 import no.fint.model.administrasjon.kodeverk.Prosjektart;
@@ -42,6 +43,7 @@ public class LinkMapper {
             .put(Lonnsart.class.getName(), contextPath + RestEndpoints.LONNSART)
             .put(Lopenummer.class.getName(), contextPath + RestEndpoints.LOPENUMMER)
             .put(Objekt.class.getName(), contextPath + RestEndpoints.OBJEKT)
+            .put(Organisasjonstype.class.getName(), contextPath + RestEndpoints.ORGANISASJONSTYPE)
             .put(Personalressurskategori.class.getName(), contextPath + RestEndpoints.PERSONALRESSURSKATEGORI)
             .put(Prosjekt.class.getName(), contextPath + RestEndpoints.PROSJEKT)
             .put(Prosjektart.class.getName(), contextPath + RestEndpoints.PROSJEKTART)

@@ -1,4 +1,4 @@
-package no.fint.consumer.models.objekt;
+package no.fint.consumer.models.organisasjonstype;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -43,27 +43,27 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import no.fint.model.resource.administrasjon.kodeverk.ObjektResource;
-import no.fint.model.resource.administrasjon.kodeverk.ObjektResources;
+import no.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResource;
+import no.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResources;
 import no.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
-@Api(tags = {"Objekt"})
+@Api(tags = {"Organisasjonstype"})
 @CrossOrigin
 @RestController
-@RequestMapping(name = "Objekt", value = RestEndpoints.OBJEKT, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-public class ObjektController {
+@RequestMapping(name = "Organisasjonstype", value = RestEndpoints.ORGANISASJONSTYPE, produces = {FintRelationsMediaType.APPLICATION_HAL_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+public class OrganisasjonstypeController {
 
     private static final String ODATA_FILTER_QUERY_OPTION = "$filter=";
 
     @Autowired(required = false)
-    private ObjektCacheService cacheService;
+    private OrganisasjonstypeCacheService cacheService;
 
     @Autowired
     private FintAuditService fintAuditService;
 
     @Autowired
-    private ObjektLinker linker;
+    private OrganisasjonstypeLinker linker;
 
     @Autowired
     private ConsumerProps props;
@@ -86,7 +86,7 @@ public class ObjektController {
     @GetMapping("/last-updated")
     public Map<String, String> getLastUpdated(@RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId) {
         if (cacheService == null) {
-            throw new CacheDisabledException("Objekt cache is disabled.");
+            throw new CacheDisabledException("Organisasjonstype cache is disabled.");
         }
         if (props.isOverrideOrgId() || orgId == null) {
             orgId = props.getDefaultOrgId();
@@ -98,7 +98,7 @@ public class ObjektController {
     @GetMapping("/cache/size")
     public ImmutableMap<String, Integer> getCacheSize(@RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId) {
         if (cacheService == null) {
-            throw new CacheDisabledException("Objekt cache is disabled.");
+            throw new CacheDisabledException("Organisasjonstype cache is disabled.");
         }
         if (props.isOverrideOrgId() || orgId == null) {
             orgId = props.getDefaultOrgId();
@@ -107,7 +107,7 @@ public class ObjektController {
     }
 
     @GetMapping
-    public ObjektResources getObjekt(
+    public OrganisasjonstypeResources getOrganisasjonstype(
             @RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId,
             @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client,
             @RequestParam(defaultValue = "0") long sinceTimeStamp,
@@ -117,9 +117,9 @@ public class ObjektController {
             HttpServletRequest request) throws InterruptedException {
         if (cacheService == null) {
             if (StringUtils.isNotBlank($filter)) {
-                return getObjektByOdataFilter(client, orgId, $filter);
+                return getOrganisasjonstypeByOdataFilter(client, orgId, $filter);
             }
-            throw new CacheDisabledException("Objekt cache is disabled.");
+            throw new CacheDisabledException("Organisasjonstype cache is disabled.");
         }
         if (props.isOverrideOrgId() || orgId == null) {
             orgId = props.getDefaultOrgId();
@@ -129,7 +129,7 @@ public class ObjektController {
         }
         log.debug("OrgId: {}, Client: {}", orgId, client);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_OBJEKT, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_ORGANISASJONSTYPE, client);
         event.setOperation(Operation.READ);
         if (StringUtils.isNotBlank(request.getQueryString())) {
             event.setQuery("?" + request.getQueryString());
@@ -137,7 +137,7 @@ public class ObjektController {
         fintAuditService.audit(event);
         fintAuditService.audit(event, Status.CACHE);
 
-        Stream<ObjektResource> resources;
+        Stream<OrganisasjonstypeResource> resources;
         if (size > 0 && offset >= 0 && sinceTimeStamp > 0) {
             resources = cacheService.streamSliceSince(orgId, sinceTimeStamp, offset, size);
         } else if (size > 0 && offset >= 0) {
@@ -154,7 +154,7 @@ public class ObjektController {
     }
     
     @PostMapping("/$query")
-    public ObjektResources getObjektByQuery(
+    public OrganisasjonstypeResources getOrganisasjonstypeByQuery(
             @RequestHeader(name = HeaderConstants.ORG_ID, required = false)   String orgId,
             @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client,
             @RequestParam(defaultValue = "0") long sinceTimeStamp,
@@ -163,10 +163,10 @@ public class ObjektController {
             @RequestBody(required = false) String query,
             HttpServletRequest request
     ) throws InterruptedException {
-        return getObjekt(orgId, client, sinceTimeStamp, size, offset, query, request);
+        return getOrganisasjonstype(orgId, client, sinceTimeStamp, size, offset, query, request);
     }
 
-    private ObjektResources getObjektByOdataFilter(
+    private OrganisasjonstypeResources getOrganisasjonstypeByOdataFilter(
         String client, String orgId, String $filter
     ) throws InterruptedException {
         if (!fintFilterService.validate($filter))
@@ -177,7 +177,7 @@ public class ObjektController {
     
         Event event = new Event(
                 orgId, Constants.COMPONENT,
-                KodeverkActions.GET_OBJEKT, client);
+                KodeverkActions.GET_ORGANISASJONSTYPE, client);
         event.setOperation(Operation.READ);
         event.setQuery(ODATA_FILTER_QUERY_OPTION.concat($filter));
     
@@ -186,11 +186,11 @@ public class ObjektController {
     
         Event response = EventResponses.handle(queue.poll(5, TimeUnit.MINUTES));
         if (response.getData() == null || response.getData().isEmpty())
-            return new ObjektResources();
+            return new OrganisasjonstypeResources();
     
-        ArrayList<ObjektResource> list = objectMapper.convertValue(
+        ArrayList<OrganisasjonstypeResource> list = objectMapper.convertValue(
                 response.getData(),
-                new TypeReference<ArrayList<ObjektResource>>() {});
+                new TypeReference<ArrayList<OrganisasjonstypeResource>>() {});
         fintAuditService.audit(response, Status.SENT_TO_CLIENT);
         list.forEach(r -> linker.mapAndResetLinks(r));
         return linker.toResources(list);
@@ -198,7 +198,7 @@ public class ObjektController {
 
 
     @GetMapping("/systemid/{id:.+}")
-    public ObjektResource getObjektBySystemId(
+    public OrganisasjonstypeResource getOrganisasjonstypeBySystemId(
             @PathVariable String id,
             @RequestHeader(name = HeaderConstants.ORG_ID, required = false) String orgId,
             @RequestHeader(name = HeaderConstants.CLIENT, required = false) String client) throws InterruptedException {
@@ -210,7 +210,7 @@ public class ObjektController {
         }
         log.debug("systemId: {}, OrgId: {}, Client: {}", id, orgId, client);
 
-        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_OBJEKT, client);
+        Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ORGANISASJONSTYPE, client);
         event.setOperation(Operation.READ);
         event.setQuery("systemId/" + id);
 
@@ -218,11 +218,11 @@ public class ObjektController {
             fintAuditService.audit(event);
             fintAuditService.audit(event, Status.CACHE);
 
-            Optional<ObjektResource> objekt = cacheService.getObjektBySystemId(orgId, id);
+            Optional<OrganisasjonstypeResource> organisasjonstype = cacheService.getOrganisasjonstypeBySystemId(orgId, id);
 
             fintAuditService.audit(event, Status.CACHE_RESPONSE, Status.SENT_TO_CLIENT);
 
-            return objekt.map(linker::toResource).orElseThrow(() -> new EntityNotFoundException(id));
+            return organisasjonstype.map(linker::toResource).orElseThrow(() -> new EntityNotFoundException(id));
 
         } else {
             BlockingQueue<Event> queue = synchronousEvents.register(event);
@@ -233,11 +233,11 @@ public class ObjektController {
             if (response.getData() == null ||
                     response.getData().isEmpty()) throw new EntityNotFoundException(id);
 
-            ObjektResource objekt = objectMapper.convertValue(response.getData().get(0), ObjektResource.class);
+            OrganisasjonstypeResource organisasjonstype = objectMapper.convertValue(response.getData().get(0), OrganisasjonstypeResource.class);
 
             fintAuditService.audit(response, Status.SENT_TO_CLIENT);
 
-            return linker.mapAndResetLinks(objekt);
+            return linker.mapAndResetLinks(organisasjonstype);
         }    
     }
 
