@@ -5,6 +5,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
+import no.fint.audit.FintAuditService;
+
+import no.fint.cache.exceptions.*;
 import no.novari.fint.consumer.config.Constants;
 import no.novari.fint.consumer.config.ConsumerProps;
 import no.novari.fint.consumer.event.ConsumerEventUtil;
@@ -13,19 +18,11 @@ import no.novari.fint.consumer.exceptions.*;
 import no.novari.fint.consumer.status.StatusCache;
 import no.novari.fint.consumer.utils.EventResponses;
 import no.novari.fint.consumer.utils.RestEndpoints;
-import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
-import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResource;
-import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResources;
-import no.novari.fint.relations.FintRelationsMediaType;
-import org.apache.commons.lang3.StringUtils;
-
-import no.fint.audit.FintAuditService;
-
-import no.fint.cache.exceptions.*;
 import no.fint.antlr.FintFilterService;
 
 import no.fint.event.model.*;
 
+import no.novari.fint.relations.FintRelationsMediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +39,10 @@ import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResources;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Api(tags = {"Ansvar"})

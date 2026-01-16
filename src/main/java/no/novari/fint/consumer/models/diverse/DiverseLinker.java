@@ -47,7 +47,7 @@ public class DiverseLinker extends FintLinker<DiverseResource> {
         if (!isNull(diverse.getSystemId()) && !isEmpty(diverse.getSystemId().getIdentifikatorverdi())) {
             builder.add(createHrefWithId(diverse.getSystemId().getIdentifikatorverdi(), "systemid"));
         }
-
+        
         return builder.build();
     }
 
@@ -56,7 +56,7 @@ public class DiverseLinker extends FintLinker<DiverseResource> {
         if (!isNull(diverse.getSystemId()) && !isEmpty(diverse.getSystemId().getIdentifikatorverdi())) {
             builder.add(diverse.getSystemId().getIdentifikatorverdi().hashCode());
         }
-
+        
         return builder.build().toArray();
     }
 

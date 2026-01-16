@@ -8,17 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import no.fint.cache.CacheService;
 import no.fint.cache.model.CacheObject;
-import no.fint.event.model.Event;
-import no.fint.event.model.ResponseStatus;
-
 import no.novari.fint.consumer.config.Constants;
 import no.novari.fint.consumer.config.ConsumerProps;
 import no.novari.fint.consumer.event.ConsumerEventUtil;
-import no.novari.fint.model.administrasjon.kodeverk.Diverse;
-import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
-import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.novari.fint.model.resource.administrasjon.kodeverk.DiverseResource;
+import no.fint.event.model.Event;
+import no.fint.event.model.ResponseStatus;
 import no.novari.fint.relations.FintResourceCompatibility;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,6 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import no.novari.fint.model.administrasjon.kodeverk.Diverse;
+import no.novari.fint.model.resource.administrasjon.kodeverk.DiverseResource;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
 
 @Slf4j
 @Service
@@ -75,13 +75,13 @@ public class DiverseCacheService extends CacheService<DiverseResource> {
     }
 
     public void rebuildCache(String orgId) {
-        flush(orgId);
-        populateCache(orgId);
-    }
+		flush(orgId);
+		populateCache(orgId);
+	}
 
     @Override
     public void populateCache(String orgId) {
-        log.info("Populating Diverse cache for {}", orgId);
+		log.info("Populating Diverse cache for {}", orgId);
         Event event = new Event(orgId, Constants.COMPONENT, KodeverkActions.GET_ALL_DIVERSE, Constants.CACHE_SERVICE);
         consumerEventUtil.send(event);
     }
@@ -89,16 +89,16 @@ public class DiverseCacheService extends CacheService<DiverseResource> {
 
     public Optional<DiverseResource> getDiverseBySystemId(String orgId, String systemId) {
         return getOne(orgId, systemId.hashCode(),
-                (resource) -> Optional
-                        .ofNullable(resource)
-                        .map(DiverseResource::getSystemId)
-                        .map(Identifikator::getIdentifikatorverdi)
-                        .map(systemId::equals)
-                        .orElse(false));
+            (resource) -> Optional
+                .ofNullable(resource)
+                .map(DiverseResource::getSystemId)
+                .map(Identifikator::getIdentifikatorverdi)
+                .map(systemId::equals)
+                .orElse(false));
     }
 
 
-    @Override
+	@Override
     public void onAction(Event event) {
         List<DiverseResource> data;
         if (checkFintResourceCompatibility && fintResourceCompatibility.isFintResourceData(event.getData())) {
@@ -114,9 +114,9 @@ public class DiverseCacheService extends CacheService<DiverseResource> {
         if (KodeverkActions.valueOf(event.getAction()) == KodeverkActions.UPDATE_DIVERSE) {
             if (event.getResponseStatus() == ResponseStatus.ACCEPTED || event.getResponseStatus() == ResponseStatus.CONFLICT) {
                 List<CacheObject<DiverseResource>> cacheObjects = data
-                        .stream()
-                        .map(i -> new CacheObject<>(i, linker.hashCodes(i)))
-                        .collect(Collectors.toList());
+                    .stream()
+                    .map(i -> new CacheObject<>(i, linker.hashCodes(i)))
+                    .collect(Collectors.toList());
                 addCache(event.getOrgId(), cacheObjects);
                 log.info("Added {} cache objects to cache for {}", cacheObjects.size(), event.getOrgId());
             } else {

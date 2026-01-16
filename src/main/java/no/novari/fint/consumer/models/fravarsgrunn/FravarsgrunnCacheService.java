@@ -8,17 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import no.fint.cache.CacheService;
 import no.fint.cache.model.CacheObject;
-import no.fint.event.model.Event;
-import no.fint.event.model.ResponseStatus;
-
 import no.novari.fint.consumer.config.Constants;
 import no.novari.fint.consumer.config.ConsumerProps;
 import no.novari.fint.consumer.event.ConsumerEventUtil;
-import no.novari.fint.model.administrasjon.kodeverk.Fravarsgrunn;
-import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
-import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.novari.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
+import no.fint.event.model.Event;
+import no.fint.event.model.ResponseStatus;
 import no.novari.fint.relations.FintResourceCompatibility;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,6 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import no.novari.fint.model.administrasjon.kodeverk.Fravarsgrunn;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
 
 @Slf4j
 @Service
