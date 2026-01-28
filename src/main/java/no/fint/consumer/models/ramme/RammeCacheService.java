@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import no.fint.model.administrasjon.kodeverk.Ramme;
-import no.fint.model.resource.administrasjon.kodeverk.RammeResource;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
-import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.novari.fint.model.administrasjon.kodeverk.Ramme;
+import no.novari.fint.model.resource.administrasjon.kodeverk.RammeResource;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.novari.fint.model.felles.kompleksedatatyper.Identifikator;
 
 @Slf4j
 @Service

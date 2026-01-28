@@ -1,7 +1,7 @@
 package no.fint.consumer.models.diverse;
 
-import no.fint.model.resource.administrasjon.kodeverk.DiverseResource;
-import no.fint.model.resource.administrasjon.kodeverk.DiverseResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.DiverseResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.DiverseResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package no.fint.consumer.models.objekt;
 
-import no.fint.model.resource.administrasjon.kodeverk.ObjektResource;
-import no.fint.model.resource.administrasjon.kodeverk.ObjektResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.ObjektResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.ObjektResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

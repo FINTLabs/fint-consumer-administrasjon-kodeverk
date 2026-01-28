@@ -43,9 +43,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import no.fint.model.resource.administrasjon.kodeverk.FravarstypeResource;
-import no.fint.model.resource.administrasjon.kodeverk.FravarstypeResources;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FravarstypeResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FravarstypeResources;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Api(tags = {"Fravarstype"})

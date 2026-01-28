@@ -1,7 +1,7 @@
 package no.fint.consumer.models.ramme;
 
-import no.fint.model.resource.administrasjon.kodeverk.RammeResource;
-import no.fint.model.resource.administrasjon.kodeverk.RammeResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.RammeResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.RammeResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

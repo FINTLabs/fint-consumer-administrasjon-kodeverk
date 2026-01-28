@@ -1,7 +1,7 @@
 package no.fint.consumer.models.stillingskode;
 
-import no.fint.model.resource.administrasjon.kodeverk.StillingskodeResource;
-import no.fint.model.resource.administrasjon.kodeverk.StillingskodeResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.StillingskodeResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.StillingskodeResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

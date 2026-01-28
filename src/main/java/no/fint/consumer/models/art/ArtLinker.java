@@ -1,7 +1,7 @@
 package no.fint.consumer.models.art;
 
-import no.fint.model.resource.administrasjon.kodeverk.ArtResource;
-import no.fint.model.resource.administrasjon.kodeverk.ArtResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.ArtResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.ArtResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

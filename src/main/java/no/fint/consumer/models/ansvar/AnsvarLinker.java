@@ -1,7 +1,7 @@
 package no.fint.consumer.models.ansvar;
 
-import no.fint.model.resource.administrasjon.kodeverk.AnsvarResource;
-import no.fint.model.resource.administrasjon.kodeverk.AnsvarResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnsvarResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

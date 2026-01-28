@@ -1,7 +1,7 @@
 package no.fint.consumer.models.organisasjonstype;
 
-import no.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResource;
-import no.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.OrganisasjonstypeResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

@@ -43,9 +43,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import no.fint.model.resource.administrasjon.kodeverk.LonnsartResource;
-import no.fint.model.resource.administrasjon.kodeverk.LonnsartResources;
-import no.fint.model.administrasjon.kodeverk.KodeverkActions;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LonnsartResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LonnsartResources;
+import no.novari.fint.model.administrasjon.kodeverk.KodeverkActions;
 
 @Slf4j
 @Api(tags = {"Lonnsart"})

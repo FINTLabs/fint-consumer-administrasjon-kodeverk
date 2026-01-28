@@ -1,7 +1,7 @@
 package no.fint.consumer.models.fravarsgrunn;
 
-import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
-import no.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FravarsgrunnResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

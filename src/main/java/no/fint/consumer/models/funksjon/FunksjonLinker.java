@@ -1,7 +1,7 @@
 package no.fint.consumer.models.funksjon;
 
-import no.fint.model.resource.administrasjon.kodeverk.FunksjonResource;
-import no.fint.model.resource.administrasjon.kodeverk.FunksjonResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FunksjonResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.FunksjonResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package no.fint.consumer.models.lopenummer;
 
-import no.fint.model.resource.administrasjon.kodeverk.LopenummerResource;
-import no.fint.model.resource.administrasjon.kodeverk.LopenummerResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LopenummerResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LopenummerResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

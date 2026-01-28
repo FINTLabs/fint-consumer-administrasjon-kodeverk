@@ -1,7 +1,7 @@
 package no.fint.consumer.models.lonnsart;
 
-import no.fint.model.resource.administrasjon.kodeverk.LonnsartResource;
-import no.fint.model.resource.administrasjon.kodeverk.LonnsartResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LonnsartResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.LonnsartResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

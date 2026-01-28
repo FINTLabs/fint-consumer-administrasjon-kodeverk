@@ -1,7 +1,7 @@
 package no.fint.consumer.models.uketimetall;
 
-import no.fint.model.resource.administrasjon.kodeverk.UketimetallResource;
-import no.fint.model.resource.administrasjon.kodeverk.UketimetallResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.UketimetallResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.UketimetallResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

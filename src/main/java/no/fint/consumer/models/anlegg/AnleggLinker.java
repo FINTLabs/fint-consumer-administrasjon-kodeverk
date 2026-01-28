@@ -1,7 +1,7 @@
 package no.fint.consumer.models.anlegg;
 
-import no.fint.model.resource.administrasjon.kodeverk.AnleggResource;
-import no.fint.model.resource.administrasjon.kodeverk.AnleggResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnleggResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AnleggResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

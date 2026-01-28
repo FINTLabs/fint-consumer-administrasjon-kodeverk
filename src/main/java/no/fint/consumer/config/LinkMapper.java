@@ -3,27 +3,27 @@ package no.fint.consumer.config;
 import no.fint.consumer.utils.RestEndpoints;
 import java.util.Map;
 import com.google.common.collect.ImmutableMap;
-import no.fint.model.administrasjon.kodeverk.Aktivitet;
-import no.fint.model.administrasjon.kodeverk.Anlegg;
-import no.fint.model.administrasjon.kodeverk.Ansvar;
-import no.fint.model.administrasjon.kodeverk.Arbeidsforholdstype;
-import no.fint.model.administrasjon.kodeverk.Art;
-import no.fint.model.administrasjon.kodeverk.Diverse;
-import no.fint.model.administrasjon.kodeverk.Formal;
-import no.fint.model.administrasjon.kodeverk.Fravarsgrunn;
-import no.fint.model.administrasjon.kodeverk.Fravarstype;
-import no.fint.model.administrasjon.kodeverk.Funksjon;
-import no.fint.model.administrasjon.kodeverk.Kontrakt;
-import no.fint.model.administrasjon.kodeverk.Lonnsart;
-import no.fint.model.administrasjon.kodeverk.Lopenummer;
-import no.fint.model.administrasjon.kodeverk.Objekt;
-import no.fint.model.administrasjon.kodeverk.Organisasjonstype;
-import no.fint.model.administrasjon.kodeverk.Personalressurskategori;
-import no.fint.model.administrasjon.kodeverk.Prosjekt;
-import no.fint.model.administrasjon.kodeverk.Prosjektart;
-import no.fint.model.administrasjon.kodeverk.Ramme;
-import no.fint.model.administrasjon.kodeverk.Stillingskode;
-import no.fint.model.administrasjon.kodeverk.Uketimetall;
+import no.novari.fint.model.administrasjon.kodeverk.Aktivitet;
+import no.novari.fint.model.administrasjon.kodeverk.Anlegg;
+import no.novari.fint.model.administrasjon.kodeverk.Ansvar;
+import no.novari.fint.model.administrasjon.kodeverk.Arbeidsforholdstype;
+import no.novari.fint.model.administrasjon.kodeverk.Art;
+import no.novari.fint.model.administrasjon.kodeverk.Diverse;
+import no.novari.fint.model.administrasjon.kodeverk.Formal;
+import no.novari.fint.model.administrasjon.kodeverk.Fravarsgrunn;
+import no.novari.fint.model.administrasjon.kodeverk.Fravarstype;
+import no.novari.fint.model.administrasjon.kodeverk.Funksjon;
+import no.novari.fint.model.administrasjon.kodeverk.Kontrakt;
+import no.novari.fint.model.administrasjon.kodeverk.Lonnsart;
+import no.novari.fint.model.administrasjon.kodeverk.Lopenummer;
+import no.novari.fint.model.administrasjon.kodeverk.Objekt;
+import no.novari.fint.model.administrasjon.kodeverk.Organisasjonstype;
+import no.novari.fint.model.administrasjon.kodeverk.Personalressurskategori;
+import no.novari.fint.model.administrasjon.kodeverk.Prosjekt;
+import no.novari.fint.model.administrasjon.kodeverk.Prosjektart;
+import no.novari.fint.model.administrasjon.kodeverk.Ramme;
+import no.novari.fint.model.administrasjon.kodeverk.Stillingskode;
+import no.novari.fint.model.administrasjon.kodeverk.Uketimetall;
 
 public class LinkMapper {
 
@@ -50,8 +50,7 @@ public class LinkMapper {
             .put(Ramme.class.getName(), contextPath + RestEndpoints.RAMME)
             .put(Stillingskode.class.getName(), contextPath + RestEndpoints.STILLINGSKODE)
             .put(Uketimetall.class.getName(), contextPath + RestEndpoints.UKETIMETALL)
-            .put("no.fint.model.administrasjon.fullmakt.Fullmakt", "/administrasjon/fullmakt/fullmakt")
-            .put("no.fint.model.administrasjon.organisasjon.Organisasjonselement", "/administrasjon/organisasjon/organisasjonselement")
+            .put("no.novari.fint.model.administrasjon.organisasjon.Organisasjonselement", "/administrasjon/organisasjon/organisasjonselement")
             /* .put(TODO,TODO) */
             .build();
     }

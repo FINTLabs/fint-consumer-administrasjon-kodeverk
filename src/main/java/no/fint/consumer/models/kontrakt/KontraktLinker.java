@@ -1,7 +1,7 @@
 package no.fint.consumer.models.kontrakt;
 
-import no.fint.model.resource.administrasjon.kodeverk.KontraktResource;
-import no.fint.model.resource.administrasjon.kodeverk.KontraktResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.KontraktResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.KontraktResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 

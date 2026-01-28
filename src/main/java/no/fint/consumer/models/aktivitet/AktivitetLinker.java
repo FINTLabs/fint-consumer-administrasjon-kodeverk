@@ -1,7 +1,7 @@
 package no.fint.consumer.models.aktivitet;
 
-import no.fint.model.resource.administrasjon.kodeverk.AktivitetResource;
-import no.fint.model.resource.administrasjon.kodeverk.AktivitetResources;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AktivitetResource;
+import no.novari.fint.model.resource.administrasjon.kodeverk.AktivitetResources;
 import no.fint.relations.FintLinker;
 import org.springframework.stereotype.Component;
 
