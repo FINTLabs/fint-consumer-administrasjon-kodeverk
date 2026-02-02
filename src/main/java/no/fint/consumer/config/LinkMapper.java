@@ -50,7 +50,7 @@ public class LinkMapper {
             .put(Ramme.class.getName(), contextPath + RestEndpoints.RAMME)
             .put(Stillingskode.class.getName(), contextPath + RestEndpoints.STILLINGSKODE)
             .put(Uketimetall.class.getName(), contextPath + RestEndpoints.UKETIMETALL)
-            .put("no.novari.fint.model.administrasjon.organisasjon.Organisasjonselement", "/model/administrasjon/organisasjon/organisasjonselement")
+            .put("no.novari.fint.model.administrasjon.organisasjon.Organisasjonselement", "/administrasjon/organisasjon/organisasjonselement")
             /* .put(TODO,TODO) */
             .build();
     }
